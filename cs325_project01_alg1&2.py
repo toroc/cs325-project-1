@@ -12,7 +12,7 @@ def maxSumSubarray_1(arr=[]):
 
     #if the array is empty, return 0
     if len(arr) == 0:
-        return 0
+        return []
     
     #if the array only has one element, return that element
     elif len(arr) == 1:
@@ -54,7 +54,7 @@ def maxSumSubarray_2(arr=[]):
 
     #if the array is empty, return 0
     if len(arr) == 0:
-        return 0
+        return []
     
     #if the array only has one element, return that element
     elif len(arr) == 1:
