@@ -1,46 +1,69 @@
+
+#!/usr/bin/python3.2
+
+#------------------------------------------------------------
+# CS 325 - Spring 2016 - Project 1
+#   By: Carol Toro
+#   File Created: 4/11/2016
+#   Last Modified: 4/11/2016
+#   Filename: algo3.py
+
 import sys
 import math
 sys.setrecursionlimit(10000)
 
 
-def maxSumSubarray_3(arr, low, high):
 
+def maxSumSubarray_3(arr , low, high):
+	"""
+	Description:
+	Input:
+	Output: 
+	"""
+	sumIdx = 2
 	#Base Case: only 1 element
 	if high == low:
-		return low, high, arr[low]
+		#print(low)
+		base = low, high, arr[low]
+		return base
 	else:
+		#print(low)
+		#print(high)
+		# Get mid point of array
+		mid = math.floor((low+high)/2)
 
-		mid = math.floor((low+high/2))
-
-		leftLow, leftHigh, leftSum = 
+		#print(mid)
+		# ansLeft contains low idx, high idx, sum
 		ansLeft = maxSumSubarray_3(arr, low, mid)
-
-		rightLow, rightHigh, rightSum = maxSumSubarray_3(arr, mid+1, high)
+		#ansRight contains low idx, high idx, sum
 		ansRight = maxSumSubarray_3(arr, mid+1, high)
 
-		crossLow, crossHigh, crossSum = maxCrossingSubarray(arr, low, mid, high)
+		#ansCross contains low idx, high idx, sum
 		ansCross = maxCrossingSubarray(arr, low, mid, high)
 
-		if leftSum >= rightSum and leftSum >= crossSum:	
+		if ansLeft[sumIdx] >= ansRight[sumIdx] and ansLeft[sumIdx] >= ansCross[sumIdx]:	
 			return ansLeft
-		elif rightSum >= leftSum and rightSum >= crossSum:
+		elif ansRight[sumIdx] >= ansLeft[sumIdx] and ansRight[sumIdx] >= ansCross[sumIdx]:
 			return ansRight
 		else:
-			answer = crossLow, crossHigh, crossSum
 			return ansCross
 
 
 
-def maxCrossingSubarray(arr, low, mid, high):
-
-	leftSum = -10000
+def maxCrossingSubarray(arr , low, mid, high):
+	"""
+	Description:
+	Input:
+	Output: 
+	"""
+	leftSum = -100000
 	totalSum = 0
 
 	i = mid
 	maxLeft=0
 	maxRight=0
 
-	while i > low:
+	while i >= low:
 		totalSum = totalSum + arr[i]
 
 		if totalSum > leftSum:
@@ -54,7 +77,7 @@ def maxCrossingSubarray(arr, low, mid, high):
 
 	j = mid + 1
 
-	while j < high:
+	while j <= high:
 
 		totalSum = totalSum + arr[j]
 
@@ -64,11 +87,12 @@ def maxCrossingSubarray(arr, low, mid, high):
 
 		j = j + 1
 
+	crossAns = maxLeft, maxRight, leftSum + rightSum
+	return crossAns
 
-	return maxLeft, maxRight, leftSum + rightSum
 
-
-
+# Inserted this function into file for testing purposes
+# once we have all algos completed, we can automate the calls to each algo
 def insertIntoArrays():
     """
     Description: 
@@ -81,7 +105,7 @@ def insertIntoArrays():
 
     arrayList = []
 
-    with open('MSS_Problems.txt') as file:
+    with open('MSS_TestProblems.txt') as file:
         for line in file:
             #Get rid of brackets and empty space    
             line = line.replace('[', '').replace(' ', '').replace(']', '')
@@ -98,13 +122,21 @@ def insertIntoArrays():
 
 
 
-myList = insertIntoArrays()
-listLen = len(myList[1])
-print(listLen)
+myLists = insertIntoArrays()
 
-maxL, maxR, maxS = maxSumSubarray_3(myList[1], 0, listLen)
+testList = myLists[0]
+testLen = len(testList)-1
+print(myLists[0])
 
-print(maxL)
-print(maxR)
-print(maxS)
+maxAns = maxSumSubarray_3(testList, 0, testLen)
+
+leftIdx = maxAns[0]
+rightIdx = maxAns[1]
+maxSum = maxAns[2]
+
+
+#Print subarray
+print(testList[leftIdx:rightIdx+1])
+
+
 print("HELLO\n")
