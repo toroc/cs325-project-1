@@ -37,8 +37,9 @@ def maxSumSubarray_1(arr=[]):
         maxSum = arr[len(arr) - 1]
         start = len(arr) - 1
         stop = len(arr) - 1
-
-    return arr[start:stop+1]
+    
+    return start, stop, maxSum
+    #return arr[start:stop+1]
 
 
 
@@ -82,4 +83,5 @@ def maxSumSubarray_2(arr=[]):
         start = len(arr) - 1
         stop = len(arr) - 1
 
-    return arr[start:stop+1]
+    return start, stop, maxSum
+    #return arr[start:stop+1]
