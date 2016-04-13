@@ -39,4 +39,3 @@ def maxSumSubarray_1(arr=[]):
         stop = len(arr) - 1
     
     return start, stop, maxSum
-    #return arr[start:stop+1]
