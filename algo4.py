@@ -41,19 +41,19 @@ def insertIntoArrays():
 
 
 ###############################TESTING OF ALGO4 #######################
-myLists = insertIntoArrays()
+# myLists = insertIntoArrays()
 
-for i in range(len(myLists)):
-    testList = myLists[i]
-    #testLen = len(testList)-1
-    print(myLists[i])
+# for i in range(len(myLists)):
+#     testList = myLists[i]
+#     #testLen = len(testList)-1
+#     print(myLists[i])
     
-    maxAns = linMaxSubArray(testList)
-    leftIdx = maxAns[0]
-    rightIdx = maxAns[1]
-    maxSum = maxAns[2]
+#     maxAns = linMaxSubArray(testList)
+#     leftIdx = maxAns[0]
+#     rightIdx = maxAns[1]
+#     maxSum = maxAns[2]
 
-    #Print subarray
-    print(testList[leftIdx:rightIdx+1])
-    print(maxSum)
-		
+#     #Print subarray
+#     print(testList[leftIdx:rightIdx+1])
+#     print(maxSum)
+# 		
