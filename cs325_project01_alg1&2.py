@@ -6,13 +6,13 @@ def maxSumSubarray_1(arr=[]):
        Computes the sum of all possible subarrays and returns the array with the
        largest sum.  Stores the largest sum found so far in the maxSum variable.
     Input: arr - an array of ints
-    Output: Returns the subarray that yields the maximum sum.
+    Output: Returns the start index of the subarray, end index of the subarray, and the sum of the subarray
     Complexity: O(n^3)
     """
 
     #if the array is empty, return 0
     if len(arr) == 0:
-        return 0
+        return []
     
     #if the array only has one element, return that element
     elif len(arr) == 1:
@@ -37,8 +37,9 @@ def maxSumSubarray_1(arr=[]):
         maxSum = arr[len(arr) - 1]
         start = len(arr) - 1
         stop = len(arr) - 1
-
-    return arr[start:stop+1]
+    
+    return start, stop, maxSum
+    #return arr[start:stop+1]
 
 
 
@@ -48,13 +49,13 @@ def maxSumSubarray_2(arr=[]):
         Computes the sum of all possible subarrays by adding the next value in the array to
         the previously computed sum.
     Input: arr - an array of ints
-    Output: returns the subarray which yields the largest sum
+    Output: Returns the start index of the subarray, end index of the subarray, and the sum of the subarray
     Complexity: O(n^2)
     """
 
     #if the array is empty, return 0
     if len(arr) == 0:
-        return 0
+        return []
     
     #if the array only has one element, return that element
     elif len(arr) == 1:
@@ -82,4 +83,5 @@ def maxSumSubarray_2(arr=[]):
         start = len(arr) - 1
         stop = len(arr) - 1
 
-    return arr[start:stop+1]
+    return start, stop, maxSum
+    #return arr[start:stop+1]
