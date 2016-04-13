@@ -1,6 +1,6 @@
 
 
-def insertIntoArrays():
+def insertIntoArrays(fileName):
     """
     Description: 
         Reads data from text file
@@ -12,7 +12,7 @@ def insertIntoArrays():
 
     arrayList = []
 
-    with open('MSS_Problems.txt') as file:
+    with open(fileName) as file:
         for line in file:
             #Get rid of brackets and empty space    
             line = line.replace('[', '').replace(' ', '').replace(']', '')
@@ -31,7 +31,15 @@ def insertIntoArrays():
 
 #insertIntoArrays()
 
+def writeResults(fileName, fullArray, subArray, maxSum):
+    """
 
+    """
+
+    with open(fileName, 'a') as file:
+        file.write('{0}\n'.format(fullArray))
+        file.write('{0}\n'.format(subArray))
+        file.write('{0}\n\n'.format(maxSum))
 
 
 

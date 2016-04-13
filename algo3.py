@@ -10,6 +10,7 @@
 
 import sys
 import math
+import processData
 sys.setrecursionlimit(10000)
 
 
@@ -102,50 +103,22 @@ def maxCrossingSubarray(arr , low, mid, high):
 	return crossAns
 
 
-# Inserted this function into file for testing purposes
-# once we have all algos completed, we can automate the calls to each algo
-def insertIntoArrays():
-    """
-    Description: 
-        Reads data from text file
-        Converts each line in file into array of integers
-        Appends next array to list of arrays
-    Input: n/a 
-    Output: Returns array of arrays (list of arrays)
-    """
-
-    arrayList = []
-
-    with open('MSS_TestProblems.txt') as file:
-        for line in file:
-            #Get rid of brackets and empty space    
-            line = line.replace('[', '').replace(' ', '').replace(']', '')
-
-            #Append each number to list, add comma separator for next list
-            arrayList.append([int(num) for num in line.split(',') if num not in '\n'])
-
-
-    #print(arrayList)
-    #print(arrayList[0]) 
-    #print(arrayList[1])   
-    
-    return arrayList
-
 
 ###############################TESTING OF ALGO3 #######################
-myLists = insertIntoArrays()
-
-testList = myLists[3]
-testLen = len(testList)-1
-print(myLists[3])
-
-maxAns = maxSumSubarray_3(testList, 0, testLen)
-
-leftIdx = maxAns[0]
-rightIdx = maxAns[1]
-maxSum = maxAns[2]
+myLists = processData.insertIntoArrays('MSS_TestProblems.txt')
 
 
-#Print subarray
-print(testList[leftIdx:rightIdx+1])
-print(maxSum)
+for i in range(len(myLists)):
+	testArray = myLists[i]
+	testLen = len(testArray)-1
+
+	# Test algo
+	maxAns = maxSumSubarray_3(testArray, 0, testLen)
+	leftIdx = maxAns[0]
+	rightIdx = maxAns[1]
+
+	fullArray = testArray
+	subArray = testArray[leftIdx:rightIdx+1]
+	maxSum = maxAns[2]
+
+	processData.writeResults('algo3Results.txt', fullArray, subArray, maxSum)
