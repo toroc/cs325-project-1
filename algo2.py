@@ -11,11 +11,11 @@ def maxSumSubarray_2(arr=[]):
 
     #if the array is empty, return 0
     if len(arr) == 0:
-        return []
+        return 0, 0, 0
     
-    #if the array only has one element, return that element
+    #if the array only has one element, return the value of that element
     elif len(arr) == 1:
-        return arr[0]
+        return 0, 0, arr[0]
 
     maxSum = arr[0]  #the largest sum of a subarray of arr
     start = 0        #the beginning index for a subarray of arr
