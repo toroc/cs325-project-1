@@ -13,43 +13,43 @@ import math
 import processData
 sys.setrecursionlimit(10000)
 
+def algo3(arr):
+
+	return maxSubarray_3(arr, 0, len(arr)-1)
 
 
-def maxSumSubarray_3(arr , low, high):
+
+def maxSubarray_3(arr, low, high):
 	"""
+	Divide and Conquer Version of the Maximum Sum Subarray
 	Description:
 	Input: array, index of 1st element, index of last element
-	Output: Returns list containing max left index of first element 
-		starting the subarray, max right index of last element in subarray, 
-		and max sum of subarray made from left index to right index
+	Output: Returns max subarray and max sum in a tuple
 	"""
-	sumIdx = 2
+	sumIdx = 1
 	#Base Case: only 1 element
 	if high == low:
-		#print(low)
-		base = low, high, arr[low]
+		base = arr[low:high+1], arr[low]
 		return base
 	else:
-		#print(low)
-		#print(high)
+
 		# Get mid point of array
 		mid = math.floor((low+high)/2)
 
-		#print(mid)
 		#Find the maximum subarray in the 1st half
-		# ansLeft contains low idx, high idx, sum
-		ansLeft = maxSumSubarray_3(arr, low, mid)
+		# ansLeft contains subarray with sum
+		ansLeft = maxSubarray_3(arr, low, mid)
 
 		#Find the maximum subarray in the 2nd half
-		#ansRight contains low idx, high idx, sum
-		ansRight = maxSumSubarray_3(arr, mid+1, high)
+		#ansRight contains subarray with sum
+		ansRight = maxSubarray_3(arr, mid+1, high)
 
 		#Find the maximum subarray within both halves
-		#ansCross contains low idx, high idx, sum
+		#ansCross contains subarray with sum
 		ansCross = maxCrossingSubarray(arr, low, mid, high)
 
 		#Compare the max sums of the subarrays on the left, right, and middle
-		#retun the list containing the max sum
+		#return the list containing the max sum
 		if ansLeft[sumIdx] >= ansRight[sumIdx] and ansLeft[sumIdx] >= ansCross[sumIdx]:	
 			return ansLeft
 		elif ansRight[sumIdx] >= ansLeft[sumIdx] and ansRight[sumIdx] >= ansCross[sumIdx]:
@@ -63,7 +63,7 @@ def maxCrossingSubarray(arr , low, mid, high):
 	"""
 	Description:
 	Input:
-	Output: 
+	Output: Returns the subarray and sum 
 	"""
 	leftSum = -100000
 	totalSum = 0
@@ -98,7 +98,7 @@ def maxCrossingSubarray(arr , low, mid, high):
 
 		j = j + 1
 
-	crossAns = maxLeft, maxRight, leftSum + rightSum
-	# Return list contain left idx, right idx, and sum
+	crossAns = arr[maxLeft:maxRight+1], leftSum + rightSum
+	# Return list contain subArray and sum
 	return crossAns
 

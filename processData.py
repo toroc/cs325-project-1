@@ -19,11 +19,6 @@ def insertIntoArrays(fileName):
 
             #Append each number to list, add comma separator for next list
             arrayList.append([int(num) for num in line.split(',') if num not in '\n'])
-
-
-    #print(arrayList)
-    #print(arrayList[0]) 
-    #print(arrayList[1])   
     
     return arrayList
 
@@ -31,15 +26,14 @@ def insertIntoArrays(fileName):
 
 #insertIntoArrays()
 
-def writeResults(fileName, fullArray, subArray, maxSum):
+def writeResults(file, fullArray, subArray, maxSum):
     """
 
     """
 
-    with open(fileName, 'a') as file:
-        file.write('{0}\n'.format(fullArray))
-        file.write('{0}\n'.format(subArray))
-        file.write('{0}\n\n'.format(maxSum))
+    file.write('{0}\n'.format(fullArray))
+    file.write('{0}\n'.format(subArray))
+    file.write('{0}\n\n'.format(maxSum))
 
 
 

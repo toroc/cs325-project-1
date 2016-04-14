@@ -1,12 +1,12 @@
 
         
-def maxSumSubarray_1(arr=[]):
+def algo1(arr=[]):
     """
     Description: Algorithm 1 - Enumeration
        Computes the sum of all possible subarrays and returns the array with the
        largest sum.  Stores the largest sum found so far in the maxSum variable.
     Input: arr - an array of ints
-    Output: Returns the start index of the subarray, end index of the subarray, and the sum of the subarray
+    Output: Returns max subarray and max sum in a tuple
     Complexity: O(n^3)
     """
 
@@ -16,7 +16,7 @@ def maxSumSubarray_1(arr=[]):
     
     #if the array only has one element, return that value of that element
     elif len(arr) == 1:
-        return 0, 0, arr[0]
+        return arr, arr[0]
 
     maxSum = arr[0]  #the largest sum of a subarray of arr
     start = 0        #the beginning index for a subarray of arr
@@ -38,4 +38,4 @@ def maxSumSubarray_1(arr=[]):
         start = len(arr) - 1
         stop = len(arr) - 1
     
-    return start, stop, maxSum
+    return arr[start:stop+1], maxSum
