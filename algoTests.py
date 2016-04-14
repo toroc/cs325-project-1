@@ -7,7 +7,9 @@ from algo4 import *
 
 
 def runTests(fileName, algo, desc):
-
+	"""
+	
+	"""
 	# Add test description to file
 
 	file = open(fileName, "a")
@@ -34,3 +36,29 @@ runTests('MSS_Results.txt', algo2, "Algorithm 2 Correctness Test Results: ")
 runTests('MSS_Results.txt', algo3, "Algorithm 3 Correctness Test Results: ")
 runTests('MSS_Results.txt', algo4, "Algorithm 4 Correctness Test Results: ")
 
+
+def getRunTimes(algo, desc, fileName, nList):
+	"""
+
+	"""
+	
+
+	# Get list of n
+
+		# Repeat 10 times for each n
+		
+		# store array of n rand #s
+
+		# set start time
+
+		# run algo
+
+		# set end time
+
+		# calculate time
+
+		# add to average time
+
+	# calculate average running time
+
+	# output results to fileName
