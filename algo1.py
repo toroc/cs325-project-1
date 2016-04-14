@@ -1,6 +1,6 @@
 
         
-def maxSumSubarray_1(arr=[]):
+def algo1(arr=[]):
     """
     Description: Algorithm 1 - Enumeration
        Computes the sum of all possible subarrays and returns the array with the
