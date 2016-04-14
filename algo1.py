@@ -6,7 +6,7 @@ def maxSumSubarray_1(arr=[]):
        Computes the sum of all possible subarrays and returns the array with the
        largest sum.  Stores the largest sum found so far in the maxSum variable.
     Input: arr - an array of ints
-    Output: Returns the start index of the subarray, end index of the subarray, and the sum of the subarray
+    Output: Returns max subarray and max sum in a tuple
     Complexity: O(n^3)
     """
 
@@ -38,4 +38,4 @@ def maxSumSubarray_1(arr=[]):
         start = len(arr) - 1
         stop = len(arr) - 1
     
-    return start, stop, maxSum
+    return arr[start:stop+1], maxSum
