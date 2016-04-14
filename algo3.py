@@ -13,19 +13,15 @@ import math
 import processData
 sys.setrecursionlimit(10000)
 
-
 def algo3(arr):
+
+	return maxSubarray_3(arr, 0, len(arr)-1)
+
+
+
+def maxSubarray_3(arr, low, high):
 	"""
-	Divide and Conquer
-	"""
-
-
-
-
-
-def maxSumSubarray_3(arr , low, high):
-	"""
-	Divide and Conquer
+	Divide and Conquer Version of the Maximum Sum Subarray
 	Description:
 	Input: array, index of 1st element, index of last element
 	Output: Returns max subarray and max sum in a tuple
@@ -33,7 +29,6 @@ def maxSumSubarray_3(arr , low, high):
 	sumIdx = 1
 	#Base Case: only 1 element
 	if high == low:
-		#print(low)
 		base = arr[low:high+1], arr[low]
 		return base
 	else:
@@ -43,11 +38,11 @@ def maxSumSubarray_3(arr , low, high):
 
 		#Find the maximum subarray in the 1st half
 		# ansLeft contains subarray with sum
-		ansLeft = maxSumSubarray_3(arr, low, mid)
+		ansLeft = maxSubarray_3(arr, low, mid)
 
 		#Find the maximum subarray in the 2nd half
 		#ansRight contains subarray with sum
-		ansRight = maxSumSubarray_3(arr, mid+1, high)
+		ansRight = maxSubarray_3(arr, mid+1, high)
 
 		#Find the maximum subarray within both halves
 		#ansCross contains subarray with sum
@@ -68,7 +63,7 @@ def maxCrossingSubarray(arr , low, mid, high):
 	"""
 	Description:
 	Input:
-	Output: Returns the 
+	Output: Returns the subarray and sum 
 	"""
 	leftSum = -100000
 	totalSum = 0
