@@ -9,6 +9,7 @@ ALGO_1_START = 100
 INCREMENT_ALGO_1 = 100
 ALGO_2_START = 1000
 INCREMENT_ALGO_2 = 500
+NUM_TESTS = 10
 
 def generateRandomArray(n):
     """
@@ -32,7 +33,7 @@ def algoAnalysis(algorithm, n):
     totalTime = 0
     avgTime = 0
 
-    for i in range(10):
+    for i in range(NUM_TESTS):
         currentArray = generateRandomArray(n)
         start = time.clock()
         algorithm(currentArray)
@@ -42,7 +43,7 @@ def algoAnalysis(algorithm, n):
 
     avgTime = totalTime
 
-    return avgTime
+    return avgTime / NUM_TESTS
     
 def runTests():
     """
