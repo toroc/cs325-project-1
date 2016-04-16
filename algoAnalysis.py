@@ -55,7 +55,7 @@ def runTests():
     #Test algorithm 1
     print("Algorithm 1 Test Results:")
     for i in range(10):
-        testSize = TEST_ARRAY_START + (INCREMENT_ALGO_1 * i)
+        testSize = ALGO_1_START + (INCREMENT_ALGO_1 * i)
         print("Array Size: " + str(testSize))
         print("Avg. Runtime: " + str(algoAnalysis(algo1, testSize)))
 
