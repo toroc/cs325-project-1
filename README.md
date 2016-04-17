@@ -4,7 +4,8 @@ Group 13
 - David Moon
 - Carol Toro
 
-
+Prior to running tests, please ensure the following files are in the same directory:
+algo1.py, algo2.py, algo3.py, algo4.py, algoAnalysis.py, algoTests.py, processData.py
 
 **Running Algorithm Correctness Tests**
 
