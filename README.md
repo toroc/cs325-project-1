@@ -5,6 +5,7 @@ Group 13
 - Carol Toro
 
 **Running Algorithm Correctness Tests**
+
 Run the following command on flip: 
 ```
 python algoTests.py
@@ -12,6 +13,7 @@ python algoTests.py
 Test Results saved to MSS_Results.txt
 
 **Running Timing Tests**
+
 Run the following command on flip:
 ```
 python algoAnalysis.py
