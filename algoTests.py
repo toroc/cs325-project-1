@@ -1,3 +1,4 @@
+#!/usr/bin/python3.2
 import processData
 from algo1 import *
 from algo2 import *
@@ -8,7 +9,10 @@ from algo4 import *
 
 def runTests(fileName, algo, desc):
 	"""
-	
+	Runs the algorithm correctness tests.
+	Input: name of file, pointer to algorithm function to call, 
+		and description of algorithm calling.
+	Output: Correctness test results saved to MSS_Results.txt
 	"""
 	# Add test description to file
 
@@ -30,7 +34,6 @@ def runTests(fileName, algo, desc):
 
 
 # Run the tests
-
 runTests('MSS_Results.txt', algo1, "Algorithm 1 Correctness Test Results: ")
 runTests('MSS_Results.txt', algo2, "Algorithm 2 Correctness Test Results: ")
 runTests('MSS_Results.txt', algo3, "Algorithm 3 Correctness Test Results: ")
