@@ -34,7 +34,7 @@ def maxSubarray_3(arr, low, high):
 	else:
 
 		# Get mid point of array
-		mid = math.floor((low+high)/2)
+		mid = (int((low+high)/2))
 
 		#Find the maximum subarray in the 1st half
 		# ansLeft contains subarray with sum
