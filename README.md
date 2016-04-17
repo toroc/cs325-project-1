@@ -4,12 +4,16 @@ Group 13
 - David Moon
 - Carol Toro
 
-## Running Individual Algorithms
-
-## Running Algorithm Correctness Tests
+**Running Algorithm Correctness Tests**
+Run the following command on flip: 
 ```
 python algoTests.py
 ```
 Test Results saved to MSS_Results.txt
 
-## Timing
+**Running Timing Tests**
+Run the following command on flip:
+```
+python algoAnalysis.py
+```
+Test Resultes printed to console.
