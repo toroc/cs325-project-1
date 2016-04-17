@@ -1,5 +1,8 @@
+#!/usr/bin/python3.2
 from algo1 import *
 from algo2 import *
+from algo3 import *
+from algo4 import *
 import random
 import time
 
@@ -9,6 +12,10 @@ ALGO_1_START = 100
 INCREMENT_ALGO_1 = 100
 ALGO_2_START = 1000
 INCREMENT_ALGO_2 = 500
+ALGO_3_START = 1000
+INCREMENT_ALGO_3 = 10000
+ALGO_4_START = 5000
+INCREMENT_ALGO_4 = 10000
 NUM_TESTS = 10
 
 def generateRandomArray(n):
@@ -41,9 +48,9 @@ def algoAnalysis(algorithm, n):
         elapsedTime = end - start
         totalTime += elapsedTime
 
-    avgTime = totalTime
+    avgTime = totalTime / NUM_TESTS
 
-    return avgTime / NUM_TESTS
+    return avgTime 
     
 def runTests():
     """
@@ -66,11 +73,29 @@ def runTests():
         print("Array Size: " + str(testSize))
         print("Avg. Runtime: " + str(algoAnalysis(algo2, testSize)))
 
+
+     #Test algorithm 3
+    print("Algorithm 3 Test Results:")
+    for i in range(10):
+        testSize = ALGO_3_START + (INCREMENT_ALGO_3 * i)
+        print("Array Size: " + str(testSize))
+        print("Avg. Runtime: " + str(algoAnalysis(algo3, testSize)))
+
+
+    #Test algorithm 4
+    print("\n\nAlgorithm 4 Test Results:")
+    for i in range(10):
+        testSize = ALGO_4_START + (INCREMENT_ALGO_4 * i)
+        print("Array Size: " + str(testSize))
+        print("Avg. Runtime: " + str(algoAnalysis(algo4, testSize)))
+
+
     
 
 
 
-
+# Run Test
+runTests()
 
 
 
