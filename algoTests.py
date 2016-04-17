@@ -1,4 +1,4 @@
-#!/usr/bin/python3.2
+#!/usr/bin/env python
 import processData
 from algo1 import *
 from algo2 import *
