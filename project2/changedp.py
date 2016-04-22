@@ -8,11 +8,8 @@ def changedp(coins, amount):
 
 	coinUsedTable = [0 for x in range(maxw) ]
 	coinCountTable = [0 for x in range(maxw)]
-
-	# Store 
-	coinsUsed = [0 for x in range(maxw)]
 	
-	# Store solution
+	# Store count of each coin value used
 	minCoinsUsed = [0 for x in range(numCoins)]
 
 
