@@ -1,44 +1,57 @@
 
-
+INF = 1000000
 
 def changedp(coins, amount):
 
-	MAXW = amount + 1
-	minCoins = [0 for x in range(MAXW) ]
-	coinsUsed = [0 for x in range(MAXW)]
-	prevSub = [0 for x in range(MAXW)]
-	lastItem = [ 0 for x in range(MAXW)]
-	solution = list()
+	maxw = amount + 1
+	numCoins = len(coins)
+
+	coinUsedTable = [0 for x in range(maxw) ]
+	coinCountTable = [0 for x in range(maxw)]
+
+	# Store 
+	coinsUsed = [0 for x in range(maxw)]
+	
+	# Store solution
+	minCoinsUsed = [0 for x in range(numCoins)]
 
 
-	coinCount = 0
+	for p in range(amount+1):
 
-	# DP Base: fill entries for case when amount = 0
-
-	for centVal in range(amount + 1):
-
-		coinCount = centVal
+		coinCount = p
 		nextCoin = 1
 
-		for j in [w for w in coins if w <= centVal]:
-			if minCoins[centVal - j ] + 1 < coinCount:
-				coinCount = minCoins[centVal - j] + 1
-				nextCoin = j
-		minCoins[centVal] = coinCount
-		coinsUsed[centVal] = nextCoin
 
-	# Complete the other table entries at each sub
+		for i in [coinValue  for coinValue in coins if coinValue <= p]:
+			if (coinCountTable[ p - i] + 1 < coinCount):
+				coinCount = coinCountTable[p - i] + 1
+				nextCoin = i 
+
+		coinCountTable[p] = coinCount
+		coinUsedTable[p] = nextCoin
+
+	###################################Up to here the above works correctly #########################
 
 	currVal = amount
+	# Should do this for each coin value
+
 
 	while currVal > 0:
-		usedCoin = coinsUsed[currVal]
-		solution.append(usedCoin)
+		usedCoin = coinUsedTable[currVal]
+		# Parse thru the different coin values
+		j = 0
+		for coin in coins:
+			if ( coin == usedCoin):
+				minCoinsUsed[j] +=1
+			j += 1
+
 		currVal = currVal - usedCoin
+		
+		
 
-	minCoinsAnswer = minCoins[amount]
+	minCoinsAnswer = coinCountTable[amount]
 
-	return solution, minCoinsAnswer
+	return minCoinsUsed, minCoinsAnswer
 
 
 
