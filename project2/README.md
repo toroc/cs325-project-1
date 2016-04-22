@@ -1,4 +1,4 @@
-# CS325 Project 1 Maximum Sum Subarray
+# CS325 Project 2 Coin Change
 Group 13
 - Joshua Curtis
 - David Moon
