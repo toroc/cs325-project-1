@@ -1,0 +1,5 @@
+Test1: All should return C=[1,1,1,1] and m=4
+
+Test2: Changegreedy should return C=[2,1,0,2] and m=5 others should return C=[0,1,2,1] m=4
+
+Test3: All should return C=[0,0,1,2] and m=3
