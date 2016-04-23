@@ -17,11 +17,13 @@ def changedp(coins, amount):
 		nextCoin = 1
 
 
-		for i in [val for val in coins if val <= p]:			
-			if (tCount[ p - i] + 1 < count):
-				count = tCount[p - i] + 1
-				nextCoin = i 
-
+		for i in coins:
+			if i <= p:
+				if (tCount[ p - i] + 1 < count):
+					count = tCount[p - i] + 1
+					nextCoin = i 		
+			else:
+				break		
 
 		tCount[p] = count
 		tUsed[p] = nextCoin
@@ -37,7 +39,7 @@ def changedp(coins, amount):
 			if ( coin == usedCoin):
 					minUsed[j] +=1
 			j += 1
-			
+
 		currVal = currVal - usedCoin
 		
 		
@@ -48,12 +50,12 @@ def changedp(coins, amount):
 
 
 
-# Test the algo
+# # Test the algo
 
-coins = [1, 3, 7, 12]
-value = 29
+# coins = [1, 2, 4, 8]
+# value = 15
 
-answer = changedp(coins, value)
-print(answer)
+# answer = changedp(coins, value)
+# print(answer)
 
 	
