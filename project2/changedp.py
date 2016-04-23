@@ -4,58 +4,60 @@ def changedp(coins, amount):
 	maxw = amount + 1
 	numCoins = len(coins)
 
-	tUsed = [0 for x in range(maxw) ]
-	tCount= [0 for x in range(maxw) ]
+	# Create two dimensional table
+	minT = [[0 for x in range(maxw)]for y in range(numCoins)]
 	
+	# initialize the base case columns when coin value is 1
+	for x in range(maxw):
+		minT[0][x]= x
+
+
 	# Store count of each coin value used
 	minUsed = [0 for x in range(numCoins)]
-	
 
-	for p in range(amount+1):
+	# Add min values at each column for each coin value row
+	for n in range(1, numCoins):
 
-		count = p
-		nextCoin = 1
+		for k in range(maxw):
 
-
-		for i in coins:
-			if i <= p:
-				if (tCount[ p - i] + 1 < count):
-					count = tCount[p - i] + 1
-					nextCoin = i 		
+			if k >= coins[n]:
+				# minimum between answer stored above OR 1 plus the answer for remaining sum
+				minT[n][k] = min(minT[n-1][k], minT[n][k-coins[n]]+1)
 			else:
-				break		
+				minT[n][k] = minT[n-1][k]
+			
 
-		tCount[p] = count
-		tUsed[p] = nextCoin
-
-
-	currVal = amount
+	# print table
+	# print(minT)
 	
-	while currVal > 0:
-		usedCoin = tUsed[currVal]
-		# Parse thru the different coin values
-		j = 0
-		for coin in coins:
-			if ( coin == usedCoin):
-					minUsed[j] +=1
-			j += 1
+	m = minT[numCoins-1][amount]
+	# print(m)
+	row = numCoins-1 
 
-		currVal = currVal - usedCoin
-		
-		
+	col = amount
 
-	minCoinsAnswer = tCount[amount]
+	while col >= 0:
+		if row == 0:
+			# move left to previous col
+			col -= coins[col]
+			minUsed[row] += 1
+		elif minT[row-1][col] >= minT[row][col - coins[row]]+1:
+			# move left to prev col
+			col -= coins[row]
+			minUsed[row] +=1
+		else:
+			# Go up a row
+			row -= 1
 
-	return minUsed, minCoinsAnswer
 
+	return minUsed, m
 
+# Test the algo
 
-# # Test the algo
+coins = [1, 2, 4]
+value = 11
 
-# coins = [1, 2, 4, 8]
-# value = 15
+answer = changedp(coins, value)
 
-# answer = changedp(coins, value)
-# print(answer)
-
+print(answer)
 	
