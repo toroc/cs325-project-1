@@ -11,13 +11,13 @@ def changedp(coins, amount):
 	for x in range(maxw):
 		minT[0][x]= x
 
-
+	# print table
+	print(minT)
 	# Store count of each coin value used
 	minUsed = [0 for x in range(numCoins)]
 
 	# Add min values at each column for each coin value row
-	for n in range(1, numCoins):
-
+	for n in range(1,numCoins):
 		for k in range(maxw):
 
 			if k >= coins[n]:
@@ -28,11 +28,11 @@ def changedp(coins, amount):
 			
 
 	# print table
-	# print(minT)
+	print(minT)
 	
 	m = minT[numCoins-1][amount]
 	# print(m)
-	row = numCoins-1 
+	row = numCoins-1
 
 	col = amount
 
@@ -40,7 +40,7 @@ def changedp(coins, amount):
 		if row == 0:
 			# move left to previous col
 			col -= coins[col]
-			minUsed[row] += 1
+			# minUsed[row] += 1
 		elif minT[row-1][col] >= minT[row][col - coins[row]]+1:
 			# move left to prev col
 			col -= coins[row]
@@ -54,8 +54,8 @@ def changedp(coins, amount):
 
 # Test the algo
 
-coins = [1, 2, 4]
-value = 11
+coins = [1, 3, 7, 12]
+value = 29
 
 answer = changedp(coins, value)
 
