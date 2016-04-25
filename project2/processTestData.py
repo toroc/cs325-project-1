@@ -90,7 +90,7 @@ def process(algo, algoName, inputFilename):
     #iterate over the pairs of testData, amount in the array
     for i in range(len(testData) // 2):
         result = algo(testData[2*i], testData[2*i + 1][0])
-        writeResults(outputFile, result, sum(result))
+        writeResults(outputFile, result[1], result[0])
 
 
     outputFile.write("\n")
