@@ -134,5 +134,5 @@ def runAlgos(inputFilename):
     #write the new test data results to the file
     process(changegreedy.changegreedy, "changeslow", inputFilename) #change from changegreedy to changeslow
     process(changegreedy.changegreedy, "changegredy", inputFilename)
-    process(changegreedy.changegreedy, "changedp", inputFilename)   #change from changegreedy to changedp
+    process(changedp.changedp, "changedp", inputFilename)
 
