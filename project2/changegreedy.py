@@ -1,6 +1,6 @@
 #!usr/bin/env python
 
-def changegreedy(amount, denominations):
+def changegreedy(denominations, amount):
     """
     Description: Greedy algorithm to calculate the number of coins necesarry to make
     change for the given parameter.  Makes as much change as possible with the highest
@@ -33,5 +33,6 @@ def changegreedy(amount, denominations):
         amount -= (numCoins * denominations[i])
 
 
-    return results
+    coinsUsed = sum(results)
+    return coinsUsed, results
         
