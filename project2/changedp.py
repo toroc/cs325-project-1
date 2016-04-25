@@ -54,7 +54,7 @@ def changedp(coins, amount):
 			# go up a row
 			row -= 1
 	
-	return minUsed, minCoins
+	return minCoins, minUsed
 
 
 
