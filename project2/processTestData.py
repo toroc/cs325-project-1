@@ -136,3 +136,45 @@ def runAlgos(inputFilename):
     process(changegreedy.changegreedy, "changegredy", inputFilename)
     process(changedp.changedp, "changedp", inputFilename)
 
+
+##########################################################################################################################
+"""
+The algorithms below were used for answering questions related to project 2.  The names are titled in relation to the 
+part they produce output for.
+"""
+##########################################################################################################################
+def project2_4(algo):
+    startAmount = 2010
+    incrementFactor = 5
+    denominations = [1,5,10,25,50]
+
+    for i in range(39):
+        amount = startAmount + (i * incrementFactor)
+        coinsUsed = algo(denominations, amount)[0]
+        #print(amount)
+        print(coinsUsed)
+
+
+def project2_5(algo):
+    startAmount = 2000
+    incrementFactor = 1
+    denominations_1 = [1,2,6,12,24,48,60]
+    denominations_2 = [1,6,13,37,150]
+
+    for i in range(201):
+        amount = startAmount + (i * incrementFactor)
+        coinsUsed = algo(denominations_2, amount)[0]        #change to appropriate denominations set
+        #print(amount)
+        print(coinsUsed)
+
+
+def project2_6(algo):
+    startAmount = 2000
+    incrementFactor = 1
+    denominations = [1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30]
+
+    for i in range(201):
+        amount = startAmount + (i * incrementFactor)
+        coinsUsed = algo(denominations, amount)[0]
+        #print(amount)
+        print(coinsUsed)
