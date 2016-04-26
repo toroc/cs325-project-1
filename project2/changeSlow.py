@@ -1,19 +1,21 @@
 #coins1 = [1, 2, 4, 8, 16]
-m = 10000 # number of coins used
-c = [0 for k in range(len(coins1))] # denominations of coins
+#m = 10000 # number of coins used
+
 
 def changeSlow(coinList, val):
+    m = 10000 # number of coins used
+    c = [0 for k in range(len(coinList))] # denominations of coins
     firstList = [0 for k in range(len(coinList))]
-    addDown(coinList, firstList, val, 0)
-    addAccross(coinList, firstList, val, 0)
-    print "Algorithm changeslow:"
-    print c
-    print m
+    m, c = addDown(coinList, firstList, val, 0, m, c)
+    m, c = addAccross(coinList, firstList, val, 0, m, c)
+    #print "Algorithm changeslow:"
+    #print c
+    #print m
     return m, c
         
-def addDown(coinList, oldList, val, i):
-    global m
-    global c
+def addDown(coinList, oldList, val, i, m, c):
+    #global m
+    #global c
     newList = copyList(oldList)
     newList[i] += 1
     total = calcTotal(coinList, newList)
@@ -29,21 +31,21 @@ def addDown(coinList, oldList, val, i):
             while p <= len(newList)-1:
                 newerList[p] = 0
                 p += 1
-            addAccross(coinList, newerList, val, i)
+            m, c = addAccross(coinList, newerList, val, i, m, c)
             newistList = copyList(newList)
             p = 1
             while p <= len(newList)-1:
                 newistList[p] = 0
                 p += 1
-            addAccross(coinList, newistList, val, i)
+            m, c = addAccross(coinList, newistList, val, i, m, c)
     if total < val:
-        addAccross(coinList, newList, val, i)
-        addDown(coinList, newList, val, i)
-    return 0
+        m, c = addAccross(coinList, newList, val, i, m, c)
+        m, c = addDown(coinList, newList, val, i, m, c)
+    return m, c
     
-def addAccross(coinList, oldList, val, i):
-    global m
-    global c
+def addAccross(coinList, oldList, val, i, m, c):
+    #global m
+    #global c
     newList = copyList(oldList)
     if i < len(coinList)-1:
         i += 1
@@ -62,17 +64,18 @@ def addAccross(coinList, oldList, val, i):
             while p <= len(newList)-1:
                 newerList[p] = 0
                 p += 1
-            addAccross(coinList, newerList, val, i)
+            m, c = addAccross(coinList, newerList, val, i, m, c)
             newistList = copyList(newList)
             p = 1
             while p <= len(newList)-1:
                 newistList[p] = 0
                 p += 1
-            addAccross(coinList, newistList, val, i)
+            m, c = addAccross(coinList, newistList, val, i, m, c)
     if total < val:
-        addAccross(coinList, newList, val, i)
-        addDown(coinList, newList, val, i)
-    return 0
+        m, c = addAccross(coinList, newList, val, i, m, c)
+        m, c = addDown(coinList, newList, val, i, m, c)
+    return m, c
+    
 def calcTotal(coinList, list):
     totalValue = 0
     for i in range(len(coinList)):
