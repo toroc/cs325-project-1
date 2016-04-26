@@ -1,6 +1,6 @@
-coins1 = [1,3,7,12]
-m = 10000
-c = [0 for k in range(len(coins1))]
+#coins1 = [1, 2, 4, 8, 16]
+m = 10000 # number of coins used
+c = [0 for k in range(len(coins1))] # denominations of coins
 
 def changeSlow(coinList, val):
     firstList = [0 for k in range(len(coinList))]
@@ -9,7 +9,7 @@ def changeSlow(coinList, val):
     print "Algorithm changeslow:"
     print c
     print m
-    return 0
+    return m, c
         
 def addDown(coinList, oldList, val, i):
     global m
@@ -85,4 +85,4 @@ def copyList(oldList):
         newList[y] = oldList[y]
     return newList
         
-changeSlow(coins1, 29)
+#changeSlow(coins1, 120)

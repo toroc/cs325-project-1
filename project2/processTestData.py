@@ -3,7 +3,7 @@
 
 import os
 
-#import changeslow
+import changeslow
 import changegreedy
 import changedp
 
@@ -132,7 +132,7 @@ def runAlgos(inputFilename):
     open(getOutputFilename(inputFilename), "w").close()
 
     #write the new test data results to the file
-    process(changegreedy.changegreedy, "changeslow", inputFilename) #change from changegreedy to changeslow
+    process(changeslow.changeSlow, "changeslow", inputFilename) #change from changegreedy to changeslow
     process(changegreedy.changegreedy, "changegredy", inputFilename)
     process(changedp.changedp, "changedp", inputFilename)
 
