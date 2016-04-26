@@ -42,17 +42,19 @@ def changedp(coins, amount):
 	while col >= 0 and row >=0:
 		prevCount = minT[row][col]
 		checkCol = col - coins[row]
-		curCount = minT[row][checkCol]
-
-		if checkCol >=0 and curCount == prevCount - 1:		
-			# used the coin
-			minUsed[row] +=1
-			# go to prev column
-			col = col - coins[row]
-		
+		if checkCol >=0:
+			curCount = minT[row][checkCol]
+			if curCount == prevCount - 1:
+				# used the coin
+				minUsed[row] +=1
+				# go to prev column
+				col = col - coins[row]
+			else:
+				# go up a row
+				row -= 1
+			
 		else:
-			# go up a row
-			row -= 1
+			break
 	
 	return minCoins, minUsed
 
