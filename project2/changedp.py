@@ -43,8 +43,8 @@ def changedp(coins, amount):
 				# minimum between answer stored above OR 1 plus the answer for
 				# remaining sum
 				minT[n][k] = min(minT[n - 1][k], minT[n][nres] + 1)
-			elif coins[n] > amount:
-				break
+			else:
+				minT[n][k] = minT[n-1][k]
 			
 					
 	# print(m)
