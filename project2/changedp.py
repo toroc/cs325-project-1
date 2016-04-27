@@ -1,6 +1,19 @@
 
 def changedp(coins, amount):
+	"""
+    Description: Dynamic Programming algorithm to calculate the number of coins needed to make
+    change for the given amount with the various values of coins at hand.
+    
+    Input:
+    array coins - an array of the different possible denominations of coins
+        Array of coins must be  in ascending order, with the first element value = 1
+    int amount - the number of cents to make change for
+    
+    Output: an array in the form [numQuarters, numDimes, numNickels, numPennies] necessary
+    to make change for the amount parameter
 
+    O(nm): Iterates one time through the list of denominations but up to m times equal to the amount
+    """
 	maxw = amount + 1
 	numCoins = len(coins)
 
@@ -54,7 +67,8 @@ def changedp(coins, amount):
 				row -= 1
 			
 		else:
-			break
+			# go up a row to different coin val
+			row -=1
 	
 	return minCoins, minUsed
 
