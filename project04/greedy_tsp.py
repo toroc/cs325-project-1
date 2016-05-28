@@ -30,9 +30,9 @@ def greedy(nodes, startNodeIndex = 0):
         closestNodeIndex = 0
 
         for i in range(len(unvisited)):
-        	if dist(curNode, unvisited[i]) < closestNodeDist:
-        		closestNode = unvisited[i]
-        		closestNodeDist = dist(curNode, closestNode)
+            if dist(curNode, unvisited[i]) < closestNodeDist:
+                closestNode = unvisited[i]
+                closestNodeDist = dist(curNode, closestNode)
         		closestNodeIndex = i
 
         curNode = closestNode
