@@ -1,6 +1,9 @@
 #!usr/bin/env python
 import math
 
+TEST_NODES = [(1,2,2),(2,2,3),(3,1,4),(4,0,1),(5,3,3),(6,7,9),(7,0,2),(8,12,10)]
+
+
 def greedy(nodes, startNodeIndex = 0):
     """
     Description: Greedy algorithm with a local search heuristic to locate the closest neighbor node.
@@ -16,10 +19,6 @@ def greedy(nodes, startNodeIndex = 0):
 
     Time Complexity:O(n^2)
     """
-    #if startNodeIndex == None:
-    #	startNode = nodes[0]
-    #else:
-    
     startNode = nodes[startNodeIndex];
 
     curNode = startNode
@@ -36,9 +35,9 @@ def greedy(nodes, startNodeIndex = 0):
 
         for i in range(len(unvisited)):
             if dist(curNode, unvisited[i]) < closestNodeDist:
-                closestNode = unvisited[i]
-                closestNodeDist = dist(curNode, closestNode)
-        		closestNodeIndex = i
+				closestNode = unvisited[i]
+				closestNodeDist = dist(curNode, closestNode)
+				closestNodeIndex = i
 
         curNode = closestNode
         visited.append(curNode)
@@ -50,8 +49,33 @@ def greedy(nodes, startNodeIndex = 0):
     return totalDist, visited		#return the total path distance and the path ordering
 
 
-def dist(node1, node2):
+def greedy2(nodes):
     """
+    Description: Uses greedy() to find a closest-neighbor path that visites each node in 
+    an array of nodes exactly once.  Iterates through the list of nodes using each 
+    node as a starting node, and determines which path yielded the minimum path distance.
+    
+    Input:
+    nodes - an array of nodes in the form (unique identifier, x-coord, y-coord)
+    
+    Output: Returns the total path distance and an array of nodes in the order visited
+
+    Time Complexity:O(n^3)
+    """
+    minResult = greedy(nodes)
+    minPathDist = minResult[0]
+
+    for i in range(len(nodes) - 1):
+        result = greedy(nodes, i)
+        if result[0] < minPathDist:
+            minResult = result
+            minPathDist = result[0]
+
+    return minResult
+
+
+def dist(node1, node2):
+	"""
     Description: Calculates the straight-line distance between two points in a 
     2-dimensional plane.
     
@@ -61,11 +85,11 @@ def dist(node1, node2):
     
     Output: Returns the straight-line distance between node1 and node2
 
-    Time Complexity: O(1)
-    """
-    distance = 0
-    distance = math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)
-    return distance
+	Time Complexity: O(1)
+	"""
+	distance = 0
+	distance = math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)
+	return distance
 
 
 def pathDist(path):
@@ -79,7 +103,7 @@ def pathDist(path):
     Output: Returns the total path distance rounded to the nearest int
 
     Time Complexity: O(n)
-    """
+	"""
 	totalDist = 0
 	for i in range(len(path) - 1):
 		totalDist += dist(path[i], path[i + 1])
@@ -87,34 +111,62 @@ def pathDist(path):
 	return int(totalDist)
 
 
+def testDist():
+	"""
+	Description: Testing for dist()
+	"""
+	print("TEST dist() FUNCTION")
+	dist0_1 = dist(TEST_NODES[0],TEST_NODES[1])
+	print("Distance from (2,2) to (2,3): " + str(dist0_1))
+	dist2_4 = dist(TEST_NODES[2], TEST_NODES[4])
+	print("Distance from (1,4) to (3,3): " + str(dist2_4))
+
+
+def testPathDist():
+    """
+	Description: Testing for pathDist()
+	"""
+    print("TEST pathDist() FUNCTION")
+    pathDistTestNodes = pathDist(TEST_NODES)
+    print("Path distance of testNodes in order: " + str(pathDistTestNodes))
+
+
 def testGreedy():
 	"""
-	Description: Testing for greedy(), dist(), and pathDist()
+	Description: Testing for greedy()
 	"""
-	testNodes = [(1,2,2),(2,2,3),(3,1,4),(4,0,1),(5,3,3)]
-	print("TEST dist() FUNCTION")
-	dist0_1 = dist(testNodes[0],testNodes[1])
-	print("Distance from (2,2) to (2,3): " + str(dist0_1))
-	dist2_4 = dist(testNodes[2], testNodes[4])
-	print("Distance from (1,4) to (3,3): " + str(dist2_4))
-	print
-	print("TEST pathDist() FUNCTION")
-	pathDistTestNodes = pathDist(testNodes)
-	print("Path distance of testNodes in order: " + str(pathDistTestNodes))
-	print
 	print("TEST greedy() FUNCTION")
 	print("Greedy Algorithm on testNodes, start index = 0:")
-	print(greedy(testNodes))
+	print(greedy(TEST_NODES))
 	print("Greedy Algorithm on testNodes, start index = 3:")
-	print(greedy(testNodes, 3))
-	print
+	print(greedy(TEST_NODES, 3))
+	print(greedy(TEST_NODES, 3)[0])
 
 	print("TEST greedy() FUNCTION FROM ALL STARTING POINTS")
-    #use greedy() to determine closest path using each node as a start node
-	for i in range(len(testNodes) - 1):
+	#use greedy() to determine closest path using each node as a start node
+	for i in range(len(TEST_NODES) - 1):
 		print("Start Index: " + str(i))
-		print(greedy(testNodes, i))
+		print(greedy(TEST_NODES, i))
+
+	print("TEST greedy2() FUNCTION")
+	print(greedy2(TEST_NODES))
 
 
+def testGreedy2():
+    print("TEST greedy2() FUNCTION")
+    print(greedy2(TEST_NODES))
 
-testGreedy()
+
+def runTests():
+	print("Test Nodes:")
+	print(TEST_NODES)
+	testDist()
+	print
+	testPathDist()
+	print
+	testGreedy()
+	print
+	testGreedy2()
+
+
+runTests()
