@@ -3,13 +3,18 @@ import math
 
 def greedy(nodes, startNodeIndex = 0):
     """
-    Description: 
+    Description: Greedy algorithm with a local search heuristic to locate the closest neighbor node.
+    Given an array of nodes to visit in the form (unique identifier, x-coord, y-coord), and an optional 
+    starting node index (default is index 0), calculates a path to visit each node exactly once and return 
+    to the starting node based on locating the closest unvisited node at each iteration.
     
     Input:
+    nodes - an array of nodes in the form (unique identifier, x-coord, y-coord)
+    startNodeIndex - optional parameter to identify the index of starting node in the array
     
-    Output: 
+    Output: Returns the total path distance and an array of nodes in the order visited
 
-    Time Complexity:
+    Time Complexity:O(n^2)
     """
     #if startNodeIndex == None:
     #	startNode = nodes[0]
@@ -57,7 +62,6 @@ def dist(node1, node2):
     Output: Returns the straight-line distance between node1 and node2
 
     Time Complexity: O(1)
-
     """
     distance = 0
     distance = math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)
@@ -75,7 +79,6 @@ def pathDist(path):
     Output: Returns the total path distance rounded to the nearest int
 
     Time Complexity: O(n)
-
     """
 	totalDist = 0
 	for i in range(len(path) - 1):
@@ -85,6 +88,9 @@ def pathDist(path):
 
 
 def testGreedy():
+	"""
+	Description: Testing for greedy(), dist(), and pathDist()
+	"""
 	testNodes = [(1,2,2),(2,2,3),(3,1,4),(4,0,1),(5,3,3)]
 	print("TEST dist() FUNCTION")
 	dist0_1 = dist(testNodes[0],testNodes[1])
