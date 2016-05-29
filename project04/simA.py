@@ -1,11 +1,12 @@
 #!usr/bin/env python
 from math import *
 import random
+from datetime import datetime
 import sys
-import greedy_tsp
+
 
 ABS_ZERO = 1e-4
-COOL_RATE = 0.999
+COOL_RATE = 0.9999
 
 TEST_NODES = [(0,3,3),(1,2,2),(2,2,3),(3,1,4),(4,0,1),(5,3,3),(6,7,9),(7,0,2),(8,12,10)]
 
@@ -27,53 +28,101 @@ def costDict(nodes):
 def getCost(tour, costMatrix):
 	"Returns cost of tour"
 
-	cost = 0;
+	totalCost = 0;
 	tlen = len(tour)-1
+	#print(tlen)
 
-	for i in range(0,tlen-1):
-		
+	for i in range(tlen):
+		#print(tour)
 		thisNode = tour[i][0]
+		n = i +1
 		nextNode = tour[i+1][0]
-		cost = cost + costMatrix.get(thisNode,nextNode)
+		#print(tour)
+		cost = costMatrix[thisNode,nextNode]
+		totalCost = totalCost + cost
+		#print(str(thisNode)+" -> " + str(nextNode) + " is " + str(cost) )
 
 	# Cost of last to first
 	firstNode = tour[0][0]
 	lastNode = tour[tlen][0]
-	cost = cost + costMatrix.get(firstNode, lastNode)
+	cost = costMatrix[firstNode,lastNode]
+	totalCost = totalCost + cost
 
-	return cost
+	return totalCost
 
+
+def nodePairs(nodes):
+
+	n1 = nodes
+	n2 = nodes
+	shuffle = random.shuffle
+	if shuffle:
+		shuffle(n1)
+		shuffle(n2)
+	for i in n1:
+		for j in n2:
+			#print(i[0])
+			#print(j[0])
+			yield (i[0],j[0])
+
+
+def swapNodes(nodes):
+
+	for i,j in nodePairs(nodes):
+		#print(i)
+		#print(j)
+		if i < j:
+			tourCopy = list(nodes)
+
+			tourCopy[i] = nodes[j]
+			tourCopy[j] = nodes[i]
+			return tourCopy
 
 
 def getRandTour(nodes):
 	"Returns random tour"
-
 	# Make copy of list
-	tour = list(nodes)
 	#Shuffle the list
+	tour  = nodes
 	random.shuffle(tour)
 
 	return tour
 
 def coinFlip(prevCost, nextCost, temp):
 
-	if nextCost > prevCost:
-		return 1.0
-	else:
-		return exp(-abs(nextCost-prevCost)/ temp)
+	p = exp(-(nextCost-prevCost)/ temp)
+	u = random.uniform(0,1)
+	#print("U: " + str(u) + "P: " + str(p))
 
+	if u > p:
+		return True
+	else:
+		return False
+
+
+
+def getCities(nodes):
+
+	cities = []
+	for i, (id1,x1,x2) in enumerate(nodes):
+		city = id1
+		cities.append(city)
+
+	return cities
 
 def tspSimA(nodes):
 
-	costD = costDict(TEST_NODES)
+	costD = costDict(nodes)
 
 	# Initial tour
-	minCost = getCost(nodes, costD)
-	minTour = nodes
-	startTour = nodes
+	startTour = getRandTour(nodes)
+
+	minCost = getCost(startTour, costD)
+	minTour = startTour
+	startTour = startTour
 
 	# Choose initial temperature
-	temp = 0.1;
+	temp = 10;
 
 	while temp > ABS_ZERO:
 
@@ -87,9 +136,13 @@ def tspSimA(nodes):
 			if randCost < minCost:
 				minTour = randTour
 				minCost = randCost
-		elif (coinFlip(startCost, randCost, temp)):
-			startTour = randTour
+				#print("Mincost: " + str(minCost))
 
+		elif (coinFlip(startCost, randCost, temp)):
+			#print("in coinFlip")
+			startTour = randTour
+		
+		# Decrease Temp
 		temp = temp * COOL_RATE
 		#print(temp)
 
@@ -137,10 +190,19 @@ def readCoords(coordFile):
 	return coords
 
 
-
+random.seed(datetime.now())
 inputFilename = "tsp_example_1.txt"
+
 
 file = open(inputFilename, "r")
 nodes = readCoords(file)
-print(tspSimA(nodes))
-print(greedy_tsp.greedy(nodes))
+print(tspSimA(nodes)) 
+
+#print(getCities(nodes))
+# print(greedy_tsp.greedy2(nodes))
+
+#costD = costDict(TEST_NODES)
+
+# print(costD)
+# print(getCost(TEST_NODES, costD))
+#print(swapNodes(nodes))
