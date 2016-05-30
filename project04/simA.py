@@ -472,7 +472,7 @@ def tspSimulated3(cities, nodes):
 	minCost = 0
 	minCost = startCost
 
-	currentTemp = 15000
+	currentTemp = 10000
 
 	while currentTemp > 0:
 
@@ -644,6 +644,7 @@ inputFilename = "tsp_example_1.txt"
 
 
 file = open(inputFilename, "r")
+close(file)
 cities, nodes = readCoords1(file)
 
 
@@ -658,10 +659,10 @@ cities, nodes = readCoords1(file)
 #
 #
 #------------------------------------------------------------
-for x in range(15):
-	print("Trial run #" + str(x))
-	start = time.clock()
-	print(tspSimulated3(cities, nodes))
-	end = time.clock()
-	elapsed = end - start
-	print("Time elapsed is: " + str(elapsed))
+
+print("File # 1" + str(x))
+start = time.clock()
+print(tspSimulated3(cities, nodes))
+end = time.clock()
+elapsed = end - start
+print("Time elapsed is: " + str(elapsed))
