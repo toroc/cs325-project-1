@@ -91,7 +91,49 @@ def greedyStart(cities, distTable):
 
 
 def greedyPath(cities, i, distTable):
-    """Returns greedy path based on probabilities, and not most optimal path"""
+	"""Returns greedy path """
+
+	greedyPath = list()
+	#neighbors = list()
+	totalPath = 0
+
+	numCities = len(cities)
+	available = list(cities)
+	start = cities[i]
+	currentCity = start
+	greedyPath.append(start)
+	
+
+	currentCity = start
+	#available.remove(start)
+	#Find closest neighbors for each city
+
+	while 0 < len(available):
+
+		first, next, avg = getTwoNearest(available, currentCity,distTable)
+		if first[0] != -1:
+			#Take the greedy path most of the time
+			if first[1] == next[1]:
+
+				if (coinFlip3(0.6)):
+					greedyPath.append(next[0])
+					available.remove(currentCity)
+					currentCity = next[0]
+				else:
+					greedyPath.append(first[0])
+					available.remove(currentCity)
+					currentCity = first[0]	   
+			else:
+				greedyPath.append(first[0])
+				available.remove(currentCity)
+				currentCity = first[0]
+		else:
+			available.remove(currentCity)
+
+	return greedyPath
+
+def superGreedyPath(cities, i, distTable):
+	"""Returns greedy path based on probabilities, and not most optimal path"""
 
 	greedyPath = list()
 	#neighbors = list()
@@ -125,7 +167,6 @@ def greedyPath(cities, i, distTable):
 			available.remove(currentCity)
 
 	return greedyPath
-
 
 
 	
@@ -164,7 +205,6 @@ def getEuclDist(x1, x2, y1, y2):
 	"""
 	distance = 0
 	#math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)
-   
 	distance = math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2)
 
 	return distance
@@ -292,6 +332,17 @@ def getRandomPath(cities):
 def getRandomCities(cities):
 	"""Returns two random cities."""
 
+	tlen = len(cities)-1
+	city1 = random.randint(0,tlen)
+	city2 = random.randint(0,tlen)
+	while city1 == city2:
+		city1 = random.randint(0,tlen)
+		city2 = random.randint(0,tlen)
+	return city1, city2
+
+def getRandomCities2(cities):
+	"""Returns two random cities."""
+
 	tlen = len(cities)
 	city1 = random.randrange(0,tlen)
 	city2 = random.randrange(0,tlen)
@@ -303,16 +354,17 @@ def getRandomCities(cities):
 
 def reversePathParts(cities):
 
-	start, end = getRandomCities(cities)
-	if start != end:
-		nextPath = list(cities)
+	start, end = getRandomCities2(cities)
+	while start != end:
+		nextPath = []
+		nextPath = cities[:]
 		if start > end:
 			nextPath[start + 1:] = reversed(cities[:end])
 			nextPath[:end] = reversed(cities[start + 1:])
 		else:
 			nextPath[start:end + 1] = reversed(cities[start:end + 1])
 		if nextPath != cities:
-			yield nextPath
+			return nextPath
 			
 
 
@@ -335,6 +387,12 @@ def coinFlip(prevCost, nextCost, temp=7000):
 	return u > p
 
 
+def coinFlip3(prob):
+
+	u = random.random()
+	return u > prob
+
+#Uses greedyStart
 def tspSimulated(cities, nodes):
 	"""
 	Input(s): cities - list of city ids, nodes - list of city ids with coordinates
@@ -387,6 +445,114 @@ def tspSimulated(cities, nodes):
 
 	return minCost, minPath
 
+
+#Reverses parts of path instead of swapping
+
+def tspSimulated3(cities, nodes):
+	"""
+	Input(s): cities - list of city ids, nodes - list of city ids with coordinates
+	"""
+	
+	distanceTable = getDistanceTable(nodes)
+	startPath = list()
+	#startPath = greedy2David(cities, nodes, distanceTable)
+	randCities = list()
+	randCities = getRandomPath(cities)
+	startPath = greedyStart(randCities, distanceTable)
+
+	#use greedy to greedy path
+	#print(greedyPath(startPath,distanceTable))
+	#startPath = greedyPath(startPath,distanceTable)
+
+	startCost = getPathCost(startPath, distanceTable)
+
+	#return startTour, startCost
+	minPath = list()
+	minPath = startPath
+	minCost = 0
+	minCost = startCost
+
+	currentTemp = 15000
+
+	while currentTemp > 0:
+
+		# Improve the path
+		#city1, city2 = getRandomCities(cities)
+		nextPath = list()
+		nextPath = reversePathParts(minPath)
+		#nextPath = swapCities(startPath, city1, city2)
+		#assert nextPath != startPath
+		nextCost = getPathCost(nextPath, distanceTable)
+
+		if nextCost < startCost:
+			startPath = nextPath
+
+			if nextCost < minCost:
+				minCost = nextCost
+				minPath = nextPath[:]
+		elif (coinFlip2(startCost, nextCost, currentTemp)):
+			#print("coin flipped")
+			startPath = nextPath[:]
+			startCost = nextCost
+		else:
+			pass
+		
+		currentTemp -= COOL_RATE
+
+	return minCost, minPath
+
+#Uses regular greedy
+def tspSimulated2(cities, nodes):
+	"""
+	Input(s): cities - list of city ids, nodes - list of city ids with coordinates
+	"""
+	
+	distanceTable = getDistanceTable(nodes)
+	startPath = list()
+	#startPath = greedy2David(cities, nodes, distanceTable)
+	randCities = list()
+	randCities = getRandomPath(cities)
+	startPath = greedyPath(randCities, 0, distanceTable)
+
+	#use greedy to greedy path
+	#print(greedyPath(startPath,distanceTable))
+	#startPath = greedyPath(startPath,distanceTable)
+
+	startCost = getPathCost(startPath, distanceTable)
+
+	#return startTour, startCost
+	minPath = list()
+	minPath = startPath
+	minCost = 0
+	minCost = startCost
+
+	currentTemp = 30000
+
+	while currentTemp > 0:
+
+		# Improve the path
+		city1, city2 = getRandomCities(cities)
+		nextPath = list()
+		nextPath = swapCities(startPath, city1, city2)
+		assert nextPath != startPath
+		nextCost = getPathCost(nextPath, distanceTable)
+
+		if nextCost < startCost:
+			startPath = nextPath
+
+			if nextCost < minCost:
+				minCost = nextCost
+				minPath = nextPath
+		elif (coinFlip2(startCost, nextCost, currentTemp)):
+			#print("coin flipped")
+			startPath = nextPath
+			startCost = nextCost
+		else:
+			pass
+		
+		currentTemp -= COOL_RATE
+
+	return minCost, minPath
 def tspSimA(cities, nodes):
 
 
@@ -495,7 +661,7 @@ cities, nodes = readCoords1(file)
 for x in range(15):
 	print("Trial run #" + str(x))
 	start = time.clock()
-	print(tspSimulated(cities, nodes))
+	print(tspSimulated3(cities, nodes))
 	end = time.clock()
 	elapsed = end - start
 	print("Time elapsed is: " + str(elapsed))
