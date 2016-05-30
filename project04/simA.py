@@ -41,6 +41,7 @@ def greedyPath(cities, distTable):
     
 
     currentCity = start
+    #available.remove(start)
     #Find closest neighbors for each city
 
     while 0 < len(available):
@@ -50,7 +51,8 @@ def greedyPath(cities, distTable):
             greedyPath.append(first)
             available.remove(currentCity)
             currentCity = first
-
+        else:
+            available.remove(currentCity)
 
     return greedyPath
 
@@ -294,7 +296,7 @@ def tspSimulated(cities, nodes):
     minPath = startPath
     minCost = startCost
 
-    currentTemp = 50
+    currentTemp = 50000
 
     while currentTemp > 0:
 
@@ -309,13 +311,14 @@ def tspSimulated(cities, nodes):
             if nextCost < minCost:
                 minCost = nextCost
                 minPath = nextPath
-
         elif (coinFlip2(startCost, nextCost, currentTemp)):
-            print("coin flipped")
+            #print("coin flipped")
             startPath = nextPath
-            startCost = nextCost        
-            
-        currentTemp *= COOL_RATE
+            startCost = nextCost
+        else:
+            pass
+        
+        currentTemp -= 1
 
     return minCost, minPath
     # Use greedy algorithm for starting tour
@@ -385,7 +388,7 @@ def tspSimA(nodes):
     #tartTour = startTour
 
     # Choose initial temperature
-    temp = 10
+    temp = 50000
 
     while temp > ABS_ZERO:
 
@@ -409,7 +412,7 @@ def tspSimA(nodes):
             startTour = randTour
         
         # Decrease Temp
-        temp = temp * COOL_RATE
+        temp = temp - 1
         #print(temp)
 
 
@@ -480,8 +483,11 @@ cities, nodes = readCoords1(file)
 #
 #
 #------------------------------------------------------------
-start = time.clock()
-print(tspSimulated(cities, nodes))
-end = time.clock()
-elapsed = end - start
-print("Time elapsed is: " + str(elapsed))
+
+for x in range(10):
+    print("Trial run #"+str(x))
+    start = time.clock()
+    print(tspSimulated(cities, nodes))
+    end = time.clock()
+    elapsed = end - start
+    print("Time elapsed is: " + str(elapsed))
