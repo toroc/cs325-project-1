@@ -358,8 +358,8 @@ def getRandomCities2(cities):
 
 def reversePathParts(cities):
 
-	start, end = getRandomCities2(cities)
-	while start != end:
+	start, end = getRandomCities(cities)
+	if start != end:
 		nextPath = []
 		nextPath = cities[:]
 		if start > end:
@@ -370,7 +370,19 @@ def reversePathParts(cities):
 		if nextPath != cities:
 			return nextPath
 			
+def reversePathParts2(cities):
 
+	start, end = getRandomCities2(cities)
+	if start != end:
+		nextPath = []
+		nextPath = cities[:]
+		if start > end:
+			nextPath[start + 1:] = reversed(cities[:end])
+			nextPath[:end] = reversed(cities[start + 1:])
+		else:
+			nextPath[start:end + 1] = reversed(cities[start:end + 1])
+		if nextPath != cities:
+			return nextPath
 
 
 def coinFlip2(prevCost, nextCost, temp):
@@ -663,7 +675,7 @@ cities, nodes = readCoords1(inputFilename)
 #
 #------------------------------------------------------------
 
-print("File # 1" + str(x))
+print("File # 1 ")
 start = time.clock()
 print(tspSimulated3(cities, nodes))
 end = time.clock()
