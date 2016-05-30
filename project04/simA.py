@@ -55,7 +55,9 @@ def greedyDavid(nodes, startNodeIndex, distTable):
 	#totalDist = pathDist(visited) #calculate the total path distance
 
 	return visited		#return the total path distance and the path ordering
-def readCoords1(coordFile):
+def readCoords1(inputFilename):
+	coordFile = open(inputFilename, "r")
+
 	cities = []
 	coords = []
 	for line in coordFile:
@@ -69,6 +71,8 @@ def readCoords1(coordFile):
 		city = int(city)
 		coords.append((city, x, y))
 		cities.append(city)
+
+	coordFile.close()
 	return cities, coords
 
 def greedyStart(cities, distTable):
@@ -643,9 +647,8 @@ random.seed(time.time())
 inputFilename = "tsp_example_1.txt"
 
 
-file = open(inputFilename, "r")
-file.close()
-cities, nodes = readCoords1(file)
+
+cities, nodes = readCoords1(inputFilename)
 
 
 #------------------------------------------------------------
