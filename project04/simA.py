@@ -5,7 +5,7 @@ import time
 import sys
 
 ABS_ZERO = 1e-4
-COOL_RATE = 0.9995
+COOL_RATE = .85
 
 TEST_NODES = [(0,3,3),(1,2,2),(2,2,3),(3,1,4),(4,0,1),(5,3,3),(6,7,9),(7,0,2),(8,12,10)]
 
@@ -24,6 +24,41 @@ def readCoords1(coordFile):
         coords.append((city, x, y))
         cities.append(city)
     return cities, coords
+
+
+
+def greedyPath(cities, distTable):
+
+    greedyPath = list()
+    neighbors = list()
+    totalPath = 0
+
+    numCities = len(cities)
+    available = list(cities)
+    start = cities[0]
+    currentCity = start
+    greedyPath.append(start)
+    
+
+    currentCity = start
+    #Find closest neighbors for each city
+
+    while 0 < len(available):
+
+        first, next = getTwoNearest(available, currentCity,distTable)
+        if first != -1:
+            greedyPath.append(first)
+            available.remove(currentCity)
+            currentCity = first
+
+
+    return greedyPath
+
+
+
+    
+
+
 
 
 def costDict(nodes):
@@ -141,22 +176,16 @@ def nodePairs(nodes):
 
 def swapCities(path, city1, city2):
     """Returns path with swapped cities.
+
     """
 
-    path[city1], path[city2] = path[city2], path[city1]
+    swappedPath = list(path)
+    swappedPath[city1] = path[city2]
+    swappedPath[city2] = path[city1]
+    return swappedPath
 
-    return path
-def swapNodes(nodes):
 
-    for i,j in randPairs(nodes):
-        #print(i)
-        #print(j)
-        if (dist(nodes[i],nodes[j]) > dist(nodes[j],nodes[i])):
-            tourCopy = list(nodes)
 
-            tourCopy[i] = nodes[j]
-            tourCopy[j] = nodes[i]
-            return tourCopy
 
 def randPairs(nodes):
 
@@ -172,25 +201,6 @@ def randPairs(nodes):
         j = k
     return i, j
 
-def swapNodes2(nodes):
-
-    tlen = len(nodes) - 1
-    i, j = randPairs(nodes)
-
-    tourCopy = list(nodes)
-    while i != j:
-                    
-        tourCopy[j] = nodes[i]
-        tourCopy[i] = nodes[j]
-
-        i = (i + 1) % tlen
-        if (i == j):
-            break
-
-        j = (j - 2 + tlen) % tlen
-
-
-    return tourCopy
 
 
 def getRandTour(nodes):
@@ -205,19 +215,19 @@ def getRandTour(nodes):
 def getRandomPath(cities):
     """Returns a random path through all cities.
     """
-
     available = list(cities)
+    random.shuffle(available)
     numCities = len(cities)
     path = []
     curCount = 0
-    while curCount < numCities:
+    while 0 < len(available):
         city = random.choice(available)
         available.remove(city)
         path.append(city)
         curCount += 1
-
     return path
     
+
 def getRandomCities(cities):
     """Returns two random cities."""
 
@@ -230,17 +240,31 @@ def getRandomCities(cities):
     return city1, city2
 
 
+def reversePathParts(cities):
+
+    start, end = getRandomCities(cities)
+    if start != end:
+        nextPath = list(cities)
+        if start > end:
+            nextPath[start+1:] = reversed(cities[:end])
+            nextPath[:end] = reversed(cities[start+1:])
+        else:
+            nextPath[start:end+1] = reversed(cities[start:end+1])
+        if nextPath != cities:
+            yield nextPath
+            
+
+
 
 def coinFlip2(prevCost, nextCost, temp):
 
-    p = math.exp(-(nextCost - prevCost) / temp)
-    u = random.uniform(0,1)
+
+    diff = nextCost - prevCost
+    p = math.exp(-(diff) / temp)
+    u = random.random()
     #print("U: " + str(u) + "P: " + str(p))
 
-    if u > p:
-        return True
-    else:
-        return False
+    return u < p
 
 
 def coinFlip(prevCost, nextCost, temp):
@@ -261,16 +285,18 @@ def tspSimulated(cities, nodes):
     startPath = getRandomPath(cities)
 
     #use greedy to greedy path
-    #print(greedy2((cities,nodes)))
+    #print(greedyPath(startPath,distanceTable))
+    startPath = greedyPath(startPath,distanceTable)
+
     startCost = getPathCost(startPath, distanceTable)
 
     #return startTour, startCost
     minPath = startPath
     minCost = startCost
 
-    currentTemp = 100
+    currentTemp = 50
 
-    while currentTemp > ABS_ZERO:
+    while currentTemp > 0:
 
         # Improve the path
         city1, city2 = getRandomCities(cities)
@@ -285,7 +311,9 @@ def tspSimulated(cities, nodes):
                 minPath = nextPath
 
         elif (coinFlip2(startCost, nextCost, currentTemp)):
-            startPath = nextPath        
+            print("coin flipped")
+            startPath = nextPath
+            startCost = nextCost        
             
         currentTemp *= COOL_RATE
 
@@ -390,8 +418,8 @@ def tspSimA(nodes):
 def getTwoNearest(cities, curLoc, distTable):
     """Returns ids of the two closest citiest to current location.
     """
-    closest1 = sys.maxsize
-    closest2 = sys.maxsize
+    city1Cost = sys.maxsize
+    city2Cost = sys.maxsize
     city1 = -1
     city2 = -1
     for i in cities:
@@ -401,12 +429,13 @@ def getTwoNearest(cities, curLoc, distTable):
             #Calculate cost from current location to this city
             cost = getCityDistance(curLoc, i, distTable)
 
-            if cost < closest1:
-                closest2 = closest1
-                city2 = cost
+            if city1Cost > cost:
+                city2Cost = city1Cost
+                city1Cost = cost
+                city2 = city1
                 city1 = i
-            elif cost >= closest1 and cost < closest2:
-                closest2 = cost
+            elif city1Cost <= cost  and city2Cost > cost :
+                city2Cost = cost
                 city2 = i
     return city1, city2
 
