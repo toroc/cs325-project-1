@@ -644,7 +644,7 @@ inputFilename = "tsp_example_1.txt"
 
 
 file = open(inputFilename, "r")
-close(file)
+file.close()
 cities, nodes = readCoords1(file)
 
 
