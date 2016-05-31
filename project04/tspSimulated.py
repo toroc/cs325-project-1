@@ -270,7 +270,7 @@ def tspSimulated3(cities, nodes):
 	#startPath = greedy2David(cities, nodes, distanceTable)
 	randCities = list()
 	randCities.extend(getRandomPath(cities))
-	startPath.extend(greedyPath(randCities, 0, distanceTable))
+	startPath.extend(greedyStart(randCities, distanceTable))
 
 	#use greedy to greedy path
 	#print(greedyPath(startPath,distanceTable))
@@ -284,7 +284,7 @@ def tspSimulated3(cities, nodes):
 	minCost = 0
 	minCost = startCost
 
-	currentTemp = 20000
+	currentTemp = 60000
 
 	while currentTemp > 0:
 
