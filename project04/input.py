@@ -4,7 +4,7 @@ import sys
 def readCoords(coordFile):
 	coords=[]
 	for line in coordFile:
-		parsed = line.strip().split(' ')
+		parsed = line.strip().split()
 		#print(parsed)
 		city = parsed[0]
 		x = parsed[1]
