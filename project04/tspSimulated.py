@@ -13,8 +13,8 @@ TEST_NODES = [(0,3,3),(1,2,2),(2,2,3),(3,1,4),(4,0,1),(5,3,3),(6,7,9),(7,0,2),(8
 def readCoords1(inputFilename):
 	coordFile = open(inputFilename, "r")
 
-	cities = []
-	coords = []
+	cities = list()
+	coords = list()
 	for line in coordFile:
 		parsed = line.strip().split(' ')
 		#print(parsed)
@@ -31,18 +31,18 @@ def readCoords1(inputFilename):
 	return cities, coords
 
 def greedyStart(cities, distTable):
-	minGreedyPath = []
+	minGreedyPath = list()
 	minCost = sys.maxsize
 
 	for i in cities:
 
-		curPath = []
+		curPath = list()
 		curPath.extend(greedyPath(cities, i, distTable))
 		curCost = getPathCost(curPath, distTable)
 
 		if curCost < minCost:
 			minCost = curCost
-			minGreedyPath = []
+			minGreedyPath = list()
 			minGreedyPath.extend(curPath)
 		else:
 			pass
@@ -55,12 +55,12 @@ def greedyStart(cities, distTable):
 def greedyPath(cities, i, distTable):
 	"""Returns greedy path """
 
-	greedyPath = []
-	#neighbors = []
+	greedyPath = list()
+	#neighbors = list()
 	totalPath = 0
 
 	numCities = len(cities)
-	available = []
+	available = list()
 	available.extend(cities)
 	start = cities[i]
 	currentCity = start
@@ -162,7 +162,7 @@ def swapCities(path, city1, city2):
 
 	i = city1
 	j = city2
-	swappedPath = []
+	swappedPath = list()
 	swappedPath.extend(path)
 	swappedPath[i] = path[j]
 	swappedPath[j] = path[i]
@@ -175,11 +175,11 @@ def swapCities(path, city1, city2):
 def getRandomPath(cities):
 	"""Returns a random path through all cities.
 	"""
-	available = []
+	available = list()
 	available.extend(cities)
 	random.shuffle(available)
 	numCities = len(cities)
-	path = []
+	path = list()
 	curCount = 0
 	while 0 < len(available):
 		city = random.choice(available)
@@ -217,17 +217,15 @@ def getRandomCities2(cities):
 def reversePathParts(cities):
 
 	start, end = getRandomCities(cities)
-	nPath = []
-	if start != end:
-		
-		nPath.extend(cities)
-		if start > end:
-			nPath[start + 1:] = reversed(cities[:end])
-			nPath[:end] = reversed(cities[start + 1:])
-		else:
-			nPath[start:end + 1] = reversed(cities[start:end + 1])
-		if nPath != cities:
-			return nPath
+	nPath = list()		
+	nPath.extend(cities)
+	if start > end:
+		nPath[start + 1:] = reversed(cities[:end])
+		nPath[:end] = reversed(cities[start + 1:])
+	else:
+		nPath[start:end + 1] = reversed(cities[start:end + 1])
+	
+	return nPath
 			
 
 
@@ -266,9 +264,9 @@ def tspSimulated3(cities, nodes):
 	"""
 	
 	distanceTable = getDistanceTable(nodes)
-	startPath = []
+	startPath = list()
 	#startPath = greedy2David(cities, nodes, distanceTable)
-	randCities = []
+	randCities = list()
 	randCities.extend(getRandomPath(cities))
 	startPath.extend(greedyStart(randCities, distanceTable))
 
@@ -279,12 +277,12 @@ def tspSimulated3(cities, nodes):
 	startCost = getPathCost(startPath, distanceTable)
 
 	#return startTour, startCost
-	minPath = []
+	minPath = list()
 	minPath.extend(startPath)
 	minCost = 0
 	minCost = startCost
 
-	currentTemp = 10000
+	currentTemp = 20000
 
 	while currentTemp > 0:
 
@@ -297,17 +295,17 @@ def tspSimulated3(cities, nodes):
 		nextCost = getPathCost(nextPath, distanceTable)
 
 		if nextCost < startCost:
-			startPath = []
+			startPath = list()
 			startPath.extend(nextPath)
 
 			if nextCost < minCost:
 				minCost = nextCost
-				minPath = []
+				minPath = list()
 				minPath.extend(nextPath)
 				del nextPath
 		elif (coinFlip2(startCost, nextCost, currentTemp)):
 			#print("coin flipped")
-			startPath = []
+			startPath = list()
 			startPath.extend(nextPath)
 			startCost = nextCost
 			del nextPath
