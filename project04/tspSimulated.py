@@ -261,6 +261,8 @@ def coinFlip3(prob):
 def tspSimulated3(cities, nodes):
 	"""
 	Input(s): cities - list of city ids, nodes - list of city ids with coordinates
+	Starts with random path and then uses greedy path to find best path from random 
+	starting point.
 	"""
 	
 	distanceTable = getDistanceTable(nodes)
@@ -268,7 +270,7 @@ def tspSimulated3(cities, nodes):
 	#startPath = greedy2David(cities, nodes, distanceTable)
 	randCities = list()
 	randCities.extend(getRandomPath(cities))
-	startPath.extend(greedyStart(randCities, distanceTable))
+	startPath.extend(greedyPath(randCities, 0, distanceTable))
 
 	#use greedy to greedy path
 	#print(greedyPath(startPath,distanceTable))
