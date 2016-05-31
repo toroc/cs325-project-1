@@ -29,9 +29,9 @@ def greedyDavid(nodes, startNodeIndex, distTable):
 	startNode = nodes[startNodeIndex]
 
 	curNode = startNode
-	visited = list()				#empty list of visited nodes to start
+	visited = []				#empty list of visited nodes to start
 	visited.append(startNode)
-	unvisited = list()	
+	unvisited = []	
 	unvisited = nodes[:]		#copy of entire node list
 	del unvisited[startNodeIndex]	#remove the start node from the list of visited nodes
 
@@ -76,17 +76,19 @@ def readCoords1(inputFilename):
 	return cities, coords
 
 def greedyStart(cities, distTable):
-	minPath = list()
+	minPath = []
 	minCost = sys.maxsize
 
 	for i in cities:
 
-		curPath = greedyPath(cities, i, distTable)
+		curPath = []
+		curPath.extend(greedyPath(cities, i, distTable))
 		curCost = getPathCost(curPath, distTable)
 
 		if curCost < minCost:
 			minCost = curCost
-			minPath = curPath
+			minPath = []
+			minPath.extend(curPath)
 		else:
 			pass
 
@@ -97,12 +99,13 @@ def greedyStart(cities, distTable):
 def greedyPath(cities, i, distTable):
 	"""Returns greedy path """
 
-	greedyPath = list()
-	#neighbors = list()
+	greedyPath = []
+	#neighbors = []
 	totalPath = 0
 
 	numCities = len(cities)
-	available = cities[:]
+	available = []
+	available.extend(cities)
 	start = cities[i]
 	currentCity = start
 	greedyPath.append(start)
@@ -135,61 +138,6 @@ def greedyPath(cities, i, distTable):
 			available.remove(currentCity)
 
 	return greedyPath
-
-def superGreedyPath(cities, i, distTable):
-	"""Returns greedy path based on probabilities, and not most optimal path"""
-
-	greedyPath = list()
-	#neighbors = list()
-	totalPath = 0
-
-	numCities = len(cities)
-	available = list(cities)
-	start = cities[i]
-	currentCity = start
-	greedyPath.append(start)
-	
-
-	currentCity = start
-	#available.remove(start)
-	#Find closest neighbors for each city
-
-	while 0 < len(available):
-
-		first, next, avg = getTwoNearest(available, currentCity,distTable)
-		if first[0] != -1:
-			#Take the greedy path most of the time
-			if (coinFlip(first[1], next[1], avg) and next[0] != -1):
-					greedyPath.append(next[0])
-					available.remove(currentCity)
-					currentCity = next[0]	   
-			else:
-				greedyPath.append(first[0])
-				available.remove(currentCity)
-				currentCity = first[0]
-		else:
-			available.remove(currentCity)
-
-	return greedyPath
-
-
-	
-
-
-
-
-def costDict(nodes):
-	"Create dictionary with nodes as keys and distance as value"
-
-	cost = {}
-
-	for i, (id1, x1, y1) in enumerate(nodes):
-		for j, (id1, x2, y2) in enumerate(nodes):
-			dx, dy = x1 - x2, y1 - y2
-			dist = hypot(x1 - x2, y1 - y2)
-			#dist = sqrt(dx*dx + dy*dy)
-			cost[i,j] = dist
-	return cost
 
 
 def getCityDistance(city1, city2, distTable):
@@ -249,46 +197,6 @@ def getPathCost(path, distTable):
 	return totalCost
 
 
-def getCost(tour, costMatrix):
-	"Returns cost of tour cycle"
-
-	totalCost = 0
-	tlen = len(tour) - 1
-	#print(tlen)
-
-	for i in range(tlen):
-		#print(tour)
-		thisNode = tour[i][0]
-		n = i + 1
-		nextNode = tour[i + 1][0]
-		#print(tour)
-		cost = costMatrix[thisNode,nextNode]
-		totalCost = totalCost + cost
-		#print(str(thisNode)+" -> " + str(nextNode) + " is " + str(cost) )
-
-	# Cost of last to first
-	firstNode = tour[0][0]
-	lastNode = tour[tlen][0]
-	cost = costMatrix[firstNode,lastNode]
-	totalCost = totalCost + cost
-
-	return totalCost
-
-
-def nodePairs(nodes):
-
-	n1 = nodes
-	n2 = nodes
-	shuffle = random.shuffle
-	if shuffle:
-		shuffle(n1)
-		shuffle(n2)
-	for i in n1:
-		for j in n2:
-			#print(i[0])
-			#print(j[0])
-			return i[0],j[0]
-
 
 
 def swapCities(path, city1, city2):
@@ -298,8 +206,8 @@ def swapCities(path, city1, city2):
 
 	i = city1
 	j = city2
-	swappedPath = list()
-	swappedPath = path[:]
+	swappedPath = []
+	swappedPath.extend(path)
 	swappedPath[i] = path[j]
 	swappedPath[j] = path[i]
 	
@@ -307,20 +215,11 @@ def swapCities(path, city1, city2):
 	
 	return swappedPath
 
-
-def getRandomTour(nodes):
-	"Returns random tour"
-	# Make copy of list
-	#Shuffle the list
-	tour = list(nodes)
-	random.shuffle(tour)
-
-	return tour
-
 def getRandomPath(cities):
 	"""Returns a random path through all cities.
 	"""
-	available = list(cities)
+	available = []
+	available.extend(cities)
 	random.shuffle(available)
 	numCities = len(cities)
 	path = []
@@ -359,9 +258,10 @@ def getRandomCities2(cities):
 def reversePathParts(cities):
 
 	start, end = getRandomCities(cities)
+	nextPath = []
 	if start != end:
-		nextPath = []
-		nextPath = cities[:]
+		
+		nextPath.extend(cities)
 		if start > end:
 			nextPath[start + 1:] = reversed(cities[:end])
 			nextPath[:end] = reversed(cities[start + 1:])
@@ -415,9 +315,9 @@ def tspSimulated(cities, nodes):
 	"""
 	
 	distanceTable = getDistanceTable(nodes)
-	startPath = list()
+	startPath = []
 	#startPath = greedy2David(cities, nodes, distanceTable)
-	randCities = list()
+	randCities = []
 	randCities = getRandomPath(cities)
 	startPath = greedyStart(randCities, distanceTable)
 
@@ -428,7 +328,7 @@ def tspSimulated(cities, nodes):
 	startCost = getPathCost(startPath, distanceTable)
 
 	#return startTour, startCost
-	minPath = list()
+	minPath = []
 	minPath = startPath
 	minCost = 0
 	minCost = startCost
@@ -439,7 +339,7 @@ def tspSimulated(cities, nodes):
 
 		# Improve the path
 		city1, city2 = getRandomCities(cities)
-		nextPath = list()
+		nextPath = []
 		nextPath = swapCities(startPath, city1, city2)
 		assert nextPath != startPath
 		nextCost = getPathCost(nextPath, distanceTable)
@@ -470,11 +370,11 @@ def tspSimulated3(cities, nodes):
 	"""
 	
 	distanceTable = getDistanceTable(nodes)
-	startPath = list()
+	startPath = []
 	#startPath = greedy2David(cities, nodes, distanceTable)
-	randCities = list()
-	randCities = getRandomPath(cities)
-	startPath = greedyStart(randCities, distanceTable)
+	randCities = []
+	randCities.extend(getRandomPath(cities))
+	startPath.extend(greedyStart(randCities, distanceTable))
 
 	#use greedy to greedy path
 	#print(greedyPath(startPath,distanceTable))
@@ -483,8 +383,8 @@ def tspSimulated3(cities, nodes):
 	startCost = getPathCost(startPath, distanceTable)
 
 	#return startTour, startCost
-	minPath = list()
-	minPath = startPath
+	minPath = []
+	minPath.extend(startPath)
 	minCost = 0
 	minCost = startCost
 
@@ -495,20 +395,23 @@ def tspSimulated3(cities, nodes):
 		# Improve the path
 		#city1, city2 = getRandomCities(cities)
 		nextPath = []
-		nextPath = reversePathParts(minPath)
+		nextPath.extend(reversePathParts(minPath))
 		#nextPath = swapCities(startPath, city1, city2)
 		#assert nextPath != startPath
 		nextCost = getPathCost(nextPath, distanceTable)
 
 		if nextCost < startCost:
-			startPath = nextPath[:]
+			startPath = []
+			startPath.extend(nextPath)
 
 			if nextCost < minCost:
 				minCost = nextCost
-				minPath = nextPath[:]
+				minPath = []
+				minPath.extend(nextPath)
 		elif (coinFlip2(startCost, nextCost, currentTemp)):
 			#print("coin flipped")
-			startPath = nextPath[:]
+			startPath = []
+			startPath.extend(nextPath)
 			startCost = nextCost
 		else:
 			pass
@@ -524,9 +427,9 @@ def tspSimulated2(cities, nodes):
 	"""
 	
 	distanceTable = getDistanceTable(nodes)
-	startPath = list()
+	startPath = []
 	#startPath = greedy2David(cities, nodes, distanceTable)
-	randCities = list()
+	randCities = []
 	randCities = getRandomPath(cities)
 	startPath = greedyPath(randCities, 0, distanceTable)
 
@@ -537,7 +440,7 @@ def tspSimulated2(cities, nodes):
 	startCost = getPathCost(startPath, distanceTable)
 
 	#return startTour, startCost
-	minPath = list()
+	minPath = []
 	minPath = startPath
 	minCost = 0
 	minCost = startCost
@@ -548,7 +451,7 @@ def tspSimulated2(cities, nodes):
 
 		# Improve the path
 		city1, city2 = getRandomCities(cities)
-		nextPath = list()
+		nextPath = []
 		nextPath = swapCities(startPath, city1, city2)
 		assert nextPath != startPath
 		nextCost = getPathCost(nextPath, distanceTable)
@@ -574,9 +477,9 @@ def tspSimA(cities, nodes):
 
 
 	distanceTable = getDistanceTable(nodes)
-	startPath = list()
+	startPath = []
 	#startPath = greedy2David(cities, nodes, distanceTable)
-	randCities = list()
+	randCities = []
 	randCities = getRandomPath(cities)
 	startPath = greedyStart(randCities, distanceTable)
 
@@ -587,7 +490,7 @@ def tspSimA(cities, nodes):
 	startCost = getPathCost(startPath, distanceTable)
 
 	#return startTour, startCost
-	minPath = list()
+	minPath = []
 	minPath = startPath
 	minCost = 0
 	minCost = startCost
