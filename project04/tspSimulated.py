@@ -8,7 +8,6 @@ import datetime
 ABS_ZERO = 1e-4
 COOL_RATE = .995
 
-TEST_NODES = [(0,3,3),(1,2,2),(2,2,3),(3,1,4),(4,0,1),(5,3,3),(6,7,9),(7,0,2),(8,12,10)]
 
 def readCoords1(inputFilename):
 	coordFile = open(inputFilename, "r")
@@ -128,7 +127,6 @@ def getDistanceTable(nodes):
 	distTable = [[0 for x in range(cols)] for x in range(rows)]
 	
 	
-
 	for i, (id1, x1, y1) in enumerate(nodes):
 		for j, (id2, x2, y2) in enumerate(nodes):
 			distTable[i][j] = getEuclDist(x1, x2, y1, y2)
@@ -203,7 +201,7 @@ def getRandomCities(cities):
 	return city1,city2
 
 def getRandomCities2(cities):
-	"""Returns two random cities."""
+	"""Returns two random cities not including the first city."""
 
 	tlen = len(cities)
 	city1 = random.randrange(0,tlen)
@@ -215,6 +213,7 @@ def getRandomCities2(cities):
 
 
 def reversePathParts(cities):
+	"""Returns a path with certain parts of the original path reversed."""
 
 	start, end = getRandomCities(cities)
 	nPath = list()		
@@ -226,11 +225,10 @@ def reversePathParts(cities):
 		nPath[start:end + 1] = reversed(cities[start:end + 1])
 	
 	return nPath
-			
-
 
 
 def coinFlip2(prevCost, nextCost, temp):
+	"""Returns a coin flip."""
 
 
 	diff = nextCost - prevCost
@@ -258,7 +256,7 @@ def coinFlip3(prob):
 
 #Reverses parts of path instead of swapping
 
-def tspSimulated3(cities, nodes):
+def tspSimulated(cities, nodes):
 	"""
 	Input(s): cities - list of city ids, nodes - list of city ids with coordinates
 	Starts with random path and then uses greedy path to find best path from random 
@@ -316,7 +314,7 @@ def tspSimulated3(cities, nodes):
 		
 		currentTemp -= COOL_RATE
 
-	return minCost, minPath
+	return int(minCost), minPath
 
 
 
@@ -357,34 +355,4 @@ def getTwoNearest(cities, curLoc, distTable):
 	return  c1, c2, avgDist
 
 
-
-
 random.seed(time.time())
-inputFilename = "tsp_example_1.txt"
-
-
-
-cities, nodes = readCoords1(inputFilename)
-
-
-#------------------------------------------------------------
-#   Helper functions to
-#
-#
-#------------------------------------------------------------
-
-#------------------------------------------------------------
-#  TEST individual functions
-#
-#
-#------------------------------------------------------------
-
-print("File # 1 ")
-start = time.clock()
-print(tspSimulated3(cities, nodes))
-end = time.clock()
-elapsed = end - start
-print("Time elapsed is: " + str(elapsed))
-
-
-#sys.exit()
