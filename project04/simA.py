@@ -102,7 +102,7 @@ def greedyPath(cities, i, distTable):
 	totalPath = 0
 
 	numCities = len(cities)
-	available = list(cities)
+	available = cities[:]
 	start = cities[i]
 	currentCity = start
 	greedyPath.append(start)
@@ -404,7 +404,7 @@ def coinFlip(prevCost, nextCost, temp=7000):
 
 
 def coinFlip3(prob):
-
+	u = 0
 	u = random.random()
 	return u > prob
 
@@ -433,7 +433,7 @@ def tspSimulated(cities, nodes):
 	minCost = 0
 	minCost = startCost
 
-	currentTemp = 30000
+	currentTemp = 10000
 
 	while currentTemp > 0:
 
@@ -494,14 +494,14 @@ def tspSimulated3(cities, nodes):
 
 		# Improve the path
 		#city1, city2 = getRandomCities(cities)
-		nextPath = list()
+		nextPath = []
 		nextPath = reversePathParts(minPath)
 		#nextPath = swapCities(startPath, city1, city2)
 		#assert nextPath != startPath
 		nextCost = getPathCost(nextPath, distanceTable)
 
 		if nextCost < startCost:
-			startPath = nextPath
+			startPath = nextPath[:]
 
 			if nextCost < minCost:
 				minCost = nextCost
@@ -569,6 +569,7 @@ def tspSimulated2(cities, nodes):
 		currentTemp -= COOL_RATE
 
 	return minCost, minPath
+
 def tspSimA(cities, nodes):
 
 
