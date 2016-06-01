@@ -430,12 +430,13 @@ def getTwoNearest(cities, curLoc, distTable):
 
 
 #Trials for competition files
+'''
 for i in range(1,8):
 	inputFilename = "tsp_test_cases/test-input-" + str(i) + ".txt"
 	cities, nodes = readCoords1(inputFilename)
 	print(inputFilename)
 	
-	for j in range(20):
+	for j in range(2):
 		
 		if len(cities) >= 1000:
 			start = time.clock()
@@ -451,7 +452,7 @@ for i in range(1,8):
 			elapsed = end - start
 			print("Trial #:" + str(j + 1)+ "\t" + str(cost) + "\t" + str(elapsed))
 			#print(tour)
-
+'''
 #inputFilename = "tsp_test_cases/test-input-5.txt"
 #cities, nodes = readCoords1(inputFilename)
 #start = time.clock()

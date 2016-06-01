@@ -76,10 +76,11 @@ def greedyPeek2(nodes):
 
     return minResult
 
-
+'''
 print("GREEDY_PEEK: ", greedyPeek(greedy_tsp.TEST_NODES))
 greedy_tsp.printPathIdentifiers(greedyPeek(greedy_tsp.TEST_NODES)[1])
 print
 print("GREEDY_PEEK_2: ", greedyPeek2(greedy_tsp.TEST_NODES))
 greedy_tsp.printPathIdentifiers(greedyPeek2(greedy_tsp.TEST_NODES)[1])
 print
+'''
