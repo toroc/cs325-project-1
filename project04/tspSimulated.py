@@ -285,7 +285,7 @@ def tspSimulated(cities, nodes):
 
 	currentTemp = 0
 	currentTemp = getStartTemperature(cities)
-	print("\t Starting Temp of " + str(currentTemp))
+	#print("\t Starting Temp of " + str(currentTemp))
 
 	while currentTemp > 0:
 
@@ -343,7 +343,7 @@ def tspSimulated2(cities, nodes):
 	minCost = startCost
 
 	currentTemp = getStartTemperature(cities)
-	print("\t Starting Temp of " + str(currentTemp))
+	#print("\t Starting Temp of " + str(currentTemp))
 
 	while currentTemp > 0:
 
@@ -435,22 +435,22 @@ for i in range(1,8):
 	cities, nodes = readCoords1(inputFilename)
 	print(inputFilename)
 	
-	for j in range(10):
+	for j in range(20):
 		
 		if len(cities) >= 1000:
-			print("\t Trial #:" + str(j + 1))
 			start = time.clock()
 			cost, tour = tspSimulated2(cities, nodes)
 			end = time.clock()
 			elapsed = end - start
-			print("\t" + str(cost) + "\t" + str(elapsed))
+			print("Trial #:" + str(j + 1)+ "\t" + str(cost) + "\t" + str(elapsed))
+			#print(tour)
 		else:
-			print("\t Trial #:" + str(j + 1))
 			start = time.clock()
 			cost, tour = tspSimulated(cities, nodes)
 			end = time.clock()
 			elapsed = end - start
-			print("\t" + str(cost) + "\t" + str(elapsed))
+			print("Trial #:" + str(j + 1)+ "\t" + str(cost) + "\t" + str(elapsed))
+			#print(tour)
 
 #inputFilename = "tsp_test_cases/test-input-5.txt"
 #cities, nodes = readCoords1(inputFilename)
