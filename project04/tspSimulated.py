@@ -7,7 +7,13 @@ import datetime
 
 ABS_ZERO = 1e-4
 COOL_RATE = .995
-
+HIGH_TEMP = 150000
+MEDIUM_HIGH = 100000
+MEDIUM_TEMP = 10000
+MEDIUM_LOW = 3000
+LOW_TEMP = 200
+COIN_PROB = 0.6
+random.seed(time.time())
 
 def readCoords1(inputFilename):
 	coordFile = open(inputFilename, "r")
@@ -15,7 +21,7 @@ def readCoords1(inputFilename):
 	cities = list()
 	coords = list()
 	for line in coordFile:
-		parsed = line.strip().split(' ')
+		parsed = line.strip().split()
 		#print(parsed)
 		city = parsed[0]
 		x = parsed[1]
@@ -52,10 +58,11 @@ def greedyStart(cities, distTable):
 
 
 def greedyPath(cities, i, distTable):
-	"""Returns greedy path """
+	"""Returns greedy path. 
+	When two cities are equally away in distance from the current city, 
+	30 percent of the time the second city is chosen."""
 
 	greedyPath = list()
-	#neighbors = list()
 	totalPath = 0
 
 	numCities = len(cities)
@@ -77,7 +84,7 @@ def greedyPath(cities, i, distTable):
 			#Take the greedy path most of the time
 			if first[1] == next[1]:
 
-				if (coinFlip3(0.6)):
+				if (coinFlip3(COIN_PROB)):
 					greedyPath.append(next[0])
 					available.remove(currentCity)
 					currentCity = next[0]
@@ -265,14 +272,9 @@ def tspSimulated(cities, nodes):
 	
 	distanceTable = getDistanceTable(nodes)
 	startPath = list()
-	#startPath = greedy2David(cities, nodes, distanceTable)
 	randCities = list()
 	randCities.extend(getRandomPath(cities))
 	startPath.extend(greedyStart(randCities, distanceTable))
-
-	#use greedy to greedy path
-	#print(greedyPath(startPath,distanceTable))
-	#startPath = greedyPath(startPath,distanceTable)
 
 	startCost = getPathCost(startPath, distanceTable)
 
@@ -282,7 +284,67 @@ def tspSimulated(cities, nodes):
 	minCost = 0
 	minCost = startCost
 
-	currentTemp = 60000
+	currentTemp = 0
+	currentTemp = getStartTemperature(cities)
+	print("\t Starting Temp of " + str(currentTemp))
+
+	while currentTemp > 0:
+
+		# Improve the path
+		#city1, city2 = getRandomCities(cities)
+		nextPath = list()
+		nextPath.extend(reversePathParts(minPath))
+		#nextPath = swapCities(startPath, city1, city2)
+		#assert nextPath != startPath
+		nextCost = getPathCost(nextPath, distanceTable)
+
+		if nextCost < startCost:
+			startPath = list()
+			startPath.extend(nextPath)
+
+			if nextCost < minCost:
+				minCost = nextCost
+				minPath = list()
+				minPath.extend(nextPath)
+				del nextPath
+		elif (coinFlip2(startCost, nextCost, currentTemp)):
+			#print("coin flipped")
+			startPath = list()
+			startPath.extend(nextPath)
+			startCost = nextCost
+			del nextPath
+		else:
+			pass
+		
+		currentTemp -= COOL_RATE
+
+	return int(minCost), minPath
+	
+	
+def tspSimulated2(cities, nodes):
+	"""
+	Input(s): cities - list of city ids, nodes - list of city ids with coordinates
+	Starts with random path and then uses greedy path to find best path from random 
+	starting point.
+	Uses greedy path without greedy start
+	"""
+	
+	distanceTable = getDistanceTable(nodes)
+	startPath = list()
+	#startPath = greedy2David(cities, nodes, distanceTable)
+	randCities = list()
+	randCities.extend(getRandomPath(cities))
+	startPath.extend(greedyPath(randCities,0, distanceTable))
+
+	startCost = getPathCost(startPath, distanceTable)
+
+	minPath = list()
+	minPath.extend(startPath)
+	minCost = 0
+	minCost = startCost
+
+	currentTemp = getStartTemperature(cities)
+	print("\t Starting Temp of " + str(currentTemp))
 
 	while currentTemp > 0:
 
@@ -317,6 +379,18 @@ def tspSimulated(cities, nodes):
 	return int(minCost), minPath
 
 
+def getStartTemperature(cities):
+
+	numCities = len(cities)
+
+	if numCities < 2000:
+		return HIGH_TEMP
+	elif numCities < 5000:
+		return MEDIUM_HIGH
+	elif numCities < 7000:
+		return MEDIUM_TEMP
+	else:
+		return MEDIUM_LOW
 
 
 
@@ -355,4 +429,38 @@ def getTwoNearest(cities, curLoc, distTable):
 	return  c1, c2, avgDist
 
 
-random.seed(time.time())
+
+#Trials for competition files
+
+for i in range(1,8):
+	inputFilename = "tsp_test_cases/test-input-" + str(i) + ".txt"
+	cities, nodes = readCoords1(inputFilename)
+	print(inputFilename)
+	
+	for j in range(10):
+		
+		if len(cities) >= 1000:
+			print("\t Trial #:" +str(j+1))
+			start = time.clock()
+			cost, tour = tspSimulated2(cities, nodes)
+			end = time.clock()
+			elapsed = end - start
+			print("\t" + str(cost) + "\t" + str(elapsed))
+		else:
+			print("\t Trial #:" +str(j+1))
+			start = time.clock()
+			cost, tour = tspSimulated(cities, nodes)
+			end = time.clock()
+			elapsed = end - start
+			print("\t" + str(cost) + "\t" + str(elapsed))
+
+#inputFilename = "tsp_test_cases/test-input-5.txt"
+#cities, nodes = readCoords1(inputFilename)
+#start = time.clock()
+#costTable = getDistanceTable(nodes)
+#tour = greedyStart(cities, costTable)
+#cost = getPathCost(tour, costTable)
+#end = time.clock()
+#print("\t Tour Cost: " + str(cost))
+#elapsed = end - start
+#print("\t Time elapsed is: " + str(elapsed))
