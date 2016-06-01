@@ -36,6 +36,9 @@ def readCoords1(inputFilename):
 	return cities, coords
 
 def greedyStart(cities, distTable):
+	"""Returns a path
+
+	"""
 	minGreedyPath = list()
 	minCost = sys.maxsize
 
@@ -58,9 +61,11 @@ def greedyStart(cities, distTable):
 
 
 def greedyPath(cities, i, distTable):
-	"""Returns greedy path. 
-	When two cities are equally away in distance from the current city, 
-	30 percent of the time the second city is chosen."""
+	"""Returns greedy path for city at position i. 
+	Input: list of cities, index of starting city, 2d matrix containing 
+	euclidean distances of cities.
+	
+	"""
 
 	greedyPath = list()
 	totalPath = 0
@@ -83,6 +88,8 @@ def greedyPath(cities, i, distTable):
 		if first[0] != -1:
 			#Take the greedy path most of the time
 			if first[1] == next[1]:
+				# When two cities are equally away in distance from the current city,
+				# 1 - COIN_PROB that the second city is chosen.
 
 				if (coinFlip3(COIN_PROB)):
 					greedyPath.append(next[0])
@@ -104,14 +111,9 @@ def greedyPath(cities, i, distTable):
 
 def getCityDistance(city1, city2, distTable):
 	"""Returns distances of 2 cities from distance table
+	Input: index of 2 cities and 2d matrix containing euclidean distance.
 	"""
-
-	if city1 < city2:
-		#city2 = city2 - city1
-		return distTable[city1][city2]
-	else:
-		#city1 = city1 - city2
-		return distTable[city2][city1]
+	return distTable[city1][city2]
 
 
 def getEuclDist(x1, x2, y1, y2):
@@ -197,7 +199,7 @@ def getRandomPath(cities):
 def getRandomCities(cities):
 	"""Returns two random cities."""
 
-	tlen = len(cities)-1
+	tlen = len(cities) - 1
 	city1 = 0
 	city2 = 0
 	city1 = random.randint(0,tlen)
@@ -236,8 +238,6 @@ def reversePathParts(cities):
 
 def coinFlip2(prevCost, nextCost, temp):
 	"""Returns a coin flip."""
-
-
 	diff = nextCost - prevCost
 	p = math.exp(-(diff) / temp)
 	u = random.random()
@@ -262,7 +262,6 @@ def coinFlip3(prob):
 
 
 #Reverses parts of path instead of swapping
-
 def tspSimulated(cities, nodes):
 	"""
 	Input(s): cities - list of city ids, nodes - list of city ids with coordinates
@@ -431,7 +430,6 @@ def getTwoNearest(cities, curLoc, distTable):
 
 
 #Trials for competition files
-
 for i in range(1,8):
 	inputFilename = "tsp_test_cases/test-input-" + str(i) + ".txt"
 	cities, nodes = readCoords1(inputFilename)
@@ -440,14 +438,14 @@ for i in range(1,8):
 	for j in range(10):
 		
 		if len(cities) >= 1000:
-			print("\t Trial #:" +str(j+1))
+			print("\t Trial #:" + str(j + 1))
 			start = time.clock()
 			cost, tour = tspSimulated2(cities, nodes)
 			end = time.clock()
 			elapsed = end - start
 			print("\t" + str(cost) + "\t" + str(elapsed))
 		else:
-			print("\t Trial #:" +str(j+1))
+			print("\t Trial #:" + str(j + 1))
 			start = time.clock()
 			cost, tour = tspSimulated(cities, nodes)
 			end = time.clock()
