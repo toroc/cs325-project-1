@@ -15,7 +15,9 @@ cost = cost + "\n"
 output = open(outFile, "w")
 output.write(cost)
 for i in tour:
-    out = str(tour[i])
+	#print(i)
+	#print(tour[i])
+    out = str(i)
     out = out + "\n"
     output.write(out)
 output.close
