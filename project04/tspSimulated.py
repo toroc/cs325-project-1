@@ -7,7 +7,7 @@ import datetime
 
 ABS_ZERO = 1e-4
 COOL_RATE = .995
-HIGH_TEMP = 150000
+HIGH_TEMP = 175000
 MEDIUM_HIGH = 100000
 MEDIUM_TEMP = 10000
 MEDIUM_LOW = 3000
@@ -113,7 +113,7 @@ def getCityDistance(city1, city2, distTable):
 	"""Returns distances of 2 cities from distance table
 	Input: index of 2 cities and 2d matrix containing euclidean distance.
 	"""
-	return distTable[city1][city2]
+	return distTable[city2][city1]
 
 
 def getEuclDist(x1, x2, y1, y2):
@@ -121,7 +121,9 @@ def getEuclDist(x1, x2, y1, y2):
 	"""
 	distance = 0
 	#a^2+b^2 = c^20
-	distance = math.hypot(x1 - x2, y1 - y2)
+	#distance = math.hypot(x1 - x2, y1 - y2)
+	dx, dy = x1 - x2, y1 - y2
+	distance =int(round(math.sqrt((dx*dx) + (dy*dy))))
 	
     #dist = sqrt(dx*dx + dy*dy)
 	#math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)
@@ -137,17 +139,18 @@ def getDistanceTable(nodes):
 
 	# Convert into 2d matrix
 	rows = cols = len(nodes)
-	distTable = [[0 for x in range(cols)] for x in range(rows)]
+	distTable = [[0 for x in range(cols)] for y in range(rows)]
 	
 	
 	for i, (id1, x1, y1) in enumerate(nodes):
 		for j, (id2, x2, y2) in enumerate(nodes):
 			distTable[i][j] = getEuclDist(x1, x2, y1, y2)
 
+	#print(distTable)
 	return distTable
 
 
-def getPathCost(path, distTable):
+def getPathCost(path, distTable, done=False):
 	"""Returns cost of path.
 	"""
 
@@ -156,7 +159,10 @@ def getPathCost(path, distTable):
 	i = 0
 
 	while i < (numCities - 1):
-		totalCost += getCityDistance(path[i], path[i + 1], distTable)
+		cityDist = getCityDistance(path[i], path[i + 1], distTable)
+		#if done:
+			#print(str(path[i]) + " -> " + str(path[i + 1]) + " = " + str(cityDist))
+		totalCost += cityDist
 		i += 1
 
 	#factor in cost from start to end
@@ -321,7 +327,10 @@ def tspSimulated(cities, nodes):
 		
 		currentTemp -= COOL_RATE
 
-	return int(minCost), minPath
+	#endCost = getPathCost(minPath,distanceTable, True)
+	#print(endCost)
+	#print(minPath)
+	return minCost, minPath
 	
 	
 def tspSimulated2(cities, nodes):
@@ -440,7 +449,7 @@ for i in range(1,8):
 	cities, nodes = readCoords1(inputFilename)
 	print(inputFilename)
 	
-	for j in range(2):
+	for j in range(20):
 		
 		if len(cities) >= 1000:
 			start = time.clock()
