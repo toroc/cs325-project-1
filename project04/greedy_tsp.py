@@ -88,7 +88,7 @@ def dist(node1, node2):
 	Time Complexity: O(1)
 	"""
 	distance = 0
-	distance = math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)
+	distance = int(math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2))
 	return distance
 
 
