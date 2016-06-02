@@ -87,9 +87,14 @@ def dist(node1, node2):
 
 	Time Complexity: O(1)
 	"""
-	distance = 0
-	distance = int(math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2))
-	return distance
+	#distance = 0
+	#distance = int(round(math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)))
+	#return distance
+
+	dx = node1[0]-node2[0]
+    	dy = node1[1]-node2[1]
+    	#return int(math.sqrt(dx*dx + dy*dy)+0.5) # equivalent to the next line
+    	return int(round(math.sqrt(dx*dx + dy*dy)))
 
 
 def pathDist(path):
