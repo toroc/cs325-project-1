@@ -91,10 +91,9 @@ def dist(node1, node2):
 	#distance = int(round(math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)))
 	#return distance
 
-	dx = node1[1]-node2[1]
-    	dy = node1[2]-node2[2]
-    	#return int(math.sqrt(dx*dx + dy*dy)+0.5) # equivalent to the next line
-    	return int(round(math.sqrt(dx*dx + dy*dy)))
+	distance = 0
+    	distance = int(round((math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2))))
+    	return distance
 
 
 def pathDist(path):
