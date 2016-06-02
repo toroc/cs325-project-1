@@ -120,8 +120,12 @@ def getEuclDist(x1, x2, y1, y2):
 	"""Returns euclidean(hypotenuse) distance between 2 cities
 	"""
 	distance = 0
+	#a^2+b^2 = c^20
+	distance = math.hypot(x1 - x2, y1 - y2)
+	
+    #dist = sqrt(dx*dx + dy*dy)
 	#math.sqrt((node2[2] - node1[2])**2 + (node2[1] - node1[1])**2)
-	distance = math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2)
+	#distance = math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2)
 
 	return distance
 
