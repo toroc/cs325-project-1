@@ -169,4 +169,4 @@ def runTests():
 	testGreedy2()
 
 
-runTests()
+#runTests()
