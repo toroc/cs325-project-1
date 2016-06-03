@@ -12,6 +12,11 @@ test-input-7.txt
 tsp_example_1.txt
 tsp_example_2.txt
 
+final.py runs a simulated annealing algorithm. This
+will return different results to the output file each
+time it is run, because of a randomization element in 
+it.
+
 To run final.py in flip the command should be:
 $python final.py <inputFileName>
 
